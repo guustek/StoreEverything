@@ -9,8 +9,8 @@
         <property name="connection.driver_class" >org.postgresql.Driver</property>
         <property name="connection.username">yqcimghvuctfqa</property>
         <property name="connection.password">18b40ba084c458d02d455e27ea27269bd57391f371ea172b16e497320c5549e4</property>
-        <mapping class="com.example.storeeverything.Category" />
-        <mapping class="com.example.storeeverything.Information" />
+        <mapping class="com.example.storeeverything.Category.Category" />
+        <mapping class="com.example.storeeverything.Information.Information" />
         <!-- <property name="connection.username"/> -->
         <!-- <property name="connection.password"/> -->
 

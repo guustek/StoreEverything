@@ -1,6 +1,10 @@
-package com.example.storeeverything;
+package com.example.storeeverything.Category;
+
+import com.example.storeeverything.Information.Information;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -10,8 +14,12 @@ public class Category {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name", nullable = false, length = - 1)
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private Collection<Information> informations;
 
     public int getId() {
         return id;
@@ -27,6 +35,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Collection<Information> getInformations() {
+        return informations;
+    }
+
+    public void setInformations(Collection<Information> informations) {
+        this.informations = informations;
     }
 
     @Override

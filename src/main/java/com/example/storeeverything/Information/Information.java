@@ -1,4 +1,6 @@
-package com.example.storeeverything;
+package com.example.storeeverything.Information;
+
+import com.example.storeeverything.Category.Category;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -11,10 +13,10 @@ public class Information {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "title", nullable = false, length = - 1)
+    @Column(name = "title", nullable = false)
     private String title;
     @Basic
-    @Column(name = "content", nullable = false, length = - 1)
+    @Column(name = "content", nullable = false)
     private String content;
     @Basic
     @Column(name = "added_date", nullable = false)
@@ -22,9 +24,10 @@ public class Information {
     @Basic
     @Column(name = "remind_date", nullable = false)
     private Date remindDate;
-    @Basic
-    @Column(name = "category_id", nullable = true)
-    private Integer categoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public int getId() {
         return id;
@@ -66,14 +69,6 @@ public class Information {
         this.remindDate = remindDate;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -81,11 +76,11 @@ public class Information {
         if (o == null || getClass() != o.getClass())
             return false;
         Information that = (Information) o;
-        return id == that.id && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(addedDate, that.addedDate) && Objects.equals(remindDate, that.remindDate) && Objects.equals(categoryId, that.categoryId);
+        return id == that.id && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(addedDate, that.addedDate) && Objects.equals(remindDate, that.remindDate) && Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, addedDate, remindDate, categoryId);
+        return Objects.hash(id, title, content, addedDate, remindDate, category);
     }
 }
