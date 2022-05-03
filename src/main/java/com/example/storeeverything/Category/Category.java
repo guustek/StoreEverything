@@ -1,13 +1,16 @@
 package com.example.storeeverything.Category;
 
+
 import com.example.storeeverything.Information.Information;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
+@Table(name = "category")
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -17,8 +20,9 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category")
     @JsonIgnore
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Information> informations;
 
     public int getId() {
@@ -52,11 +56,11 @@ public class Category {
         if (o == null || getClass() != o.getClass())
             return false;
         Category category = (Category) o;
-        return id == category.id && Objects.equals(name, category.name);
+        return Objects.equals(name, category.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
 }

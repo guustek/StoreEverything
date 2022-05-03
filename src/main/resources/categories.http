@@ -1,0 +1,32 @@
+GET http://localhost:8080/categories
+Accept: application/json
+
+###
+
+GET http://localhost:8080/categories/1
+Accept: application/json
+
+###
+
+POST http://localhost:8080/categories
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "JD"
+}
+
+###
+
+DELETE http://localhost:8080/categories/3
+Accept: application/json
+
+###
+
+PUT http://localhost:8080/categories/2
+Content-Type: application/json
+
+{
+  "name": "Link"
+}
+
