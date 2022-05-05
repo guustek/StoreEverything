@@ -1,5 +1,6 @@
 package com.example.storeeverything.Information;
 
+import com.example.storeeverything.Category.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class InformationController {
     private final InformationRepository informationRepository;
 
     @Autowired
-    public InformationController(InformationRepository repository) {
-        this.informationRepository = repository;
+    public InformationController(InformationRepository informationRepository) {
+        this.informationRepository = informationRepository;
     }
 
     @GetMapping("")
@@ -26,33 +27,33 @@ public class InformationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Information> getById(@PathVariable int id) {
+    public ResponseEntity<Object> getById(@PathVariable int id) {
         try {
             Information information = informationRepository.findById(id).orElseThrow();
             return new ResponseEntity<>(information, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(String.format("Information with Id=%d not found", id), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("")
-    public ResponseEntity<Information> add(@RequestBody Information data) {
+    public ResponseEntity<Object> add(@RequestBody Information data) {
         data.setId(0);
         if (! informationRepository.findAll().contains(data)) {
             informationRepository.save(data);
             return new ResponseEntity<>(data, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(String.format("%s already exists", data), HttpStatus.CONFLICT);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Information> delete(@PathVariable int id) {
+    ResponseEntity<Object> delete(@PathVariable int id) {
         try {
             Information information = informationRepository.findById(id).orElseThrow();
             informationRepository.deleteById(id);
             return new ResponseEntity<>(information, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(String.format("Information with Id=%d not found", id), HttpStatus.NOT_FOUND);
         }
     }
 

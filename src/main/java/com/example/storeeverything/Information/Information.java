@@ -108,4 +108,17 @@ public class Information {
     public int hashCode() {
         return Objects.hash(title, content, addedDate, remindDate, category);
     }
+
+    @Override
+    public String toString() {
+        return "Information{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", category=" + category +
+                ", link='" + link + '\'' +
+                ", addedDate=" + addedDate +
+                ", remindDate=" + remindDate +
+                '}';
+    }
 }

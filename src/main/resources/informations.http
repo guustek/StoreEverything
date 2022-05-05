@@ -14,7 +14,7 @@ Content-Type: application/json
   "title": "X",
   "content": "X",
   "category":  {
-    "id": 4,
+    "id": 3,
     "name": "JD"
   },
   "link": null,

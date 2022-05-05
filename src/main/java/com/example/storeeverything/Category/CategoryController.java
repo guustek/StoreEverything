@@ -1,12 +1,10 @@
 package com.example.storeeverything.Category;
 
-import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -28,33 +26,33 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getById(@PathVariable int id) {
+    public ResponseEntity<Object> getById(@PathVariable int id) {
         try {
             Category category = repository.findById(id).orElseThrow();
             return new ResponseEntity<>(category, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(String.format("Category with Id=%d not found", id), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("")
-    public ResponseEntity<Category> add(@RequestBody Category data) {
+    public ResponseEntity<Object> add(@RequestBody Category data) {
         data.setId(0);
         if (! repository.findAll().contains(data)) {
             repository.save(data);
             return new ResponseEntity<>(data, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(String.format("%s already exists", data), HttpStatus.CONFLICT);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Category> delete(@PathVariable int id) {
+    ResponseEntity<Object> delete(@PathVariable int id) {
         try {
             Category category = repository.findById(id).orElseThrow();
             repository.deleteById(id);
             return new ResponseEntity<>(category, HttpStatus.OK);
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(String.format("Category with Id=%d not found", id),HttpStatus.NOT_FOUND);
         }
     }
 
