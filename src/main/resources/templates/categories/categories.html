@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Store Everything</title>
+    <link th:href="@{/css/categories/categories.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Categories:</h1>
+    <ul th:each="category : ${categories}">
+        <a th:href="@{/categories/{id}(id=${category.id})}">
+            <li th:text="${category.name}" />
+        </a>
+    </ul>
+
+    <button>
+        <a th:href="@{/}">Back</a>
+    </button>
+    <button>
+        <a th:href="@{/categories/add}">Add</a>
+    </button>
+</body>
+
+</html>
