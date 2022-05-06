@@ -3,13 +3,15 @@ package com.example.storeeverything.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @CrossOrigin
-@RestController
+@Controller
 @RequestMapping("/categories")
 public class CategoryController {
 
@@ -21,45 +23,85 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<Category>> getAll() {
-        return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+    public String getAll(Model model) {
+        List<Category> categories = repository.findAll();
+        model.addAttribute("categories", categories);
+        return "categories/categories";
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getById(@PathVariable int id) {
+    public String getById(@PathVariable int id, Model model) {
         try {
             Category category = repository.findById(id).orElseThrow();
-            return new ResponseEntity<>(category, HttpStatus.OK);
+            model.addAttribute("category", category);
+            return "categories/details";
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(String.format("Category with Id=%d not found", id), HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(String.format("Category with Id=%d not found", id), HttpStatus.NOT_FOUND);
+            /*
+             * TODO return if couldn't find category with this id
+             */
+            return "";
         }
     }
 
-    @PostMapping("")
-    public ResponseEntity<Object> add(@RequestBody Category data) {
-        data.setId(0);
-        if (! repository.findAll().contains(data)) {
-            repository.save(data);
-            return new ResponseEntity<>(data, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(String.format("%s already exists", data), HttpStatus.CONFLICT);
+    @GetMapping("/add")
+    public String add(Model model) {
+        Category category = new Category();
+        model.addAttribute("category", category);
+        return "categories/add";
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<Object> delete(@PathVariable int id) {
+    @PostMapping("/add")
+    public String add(@ModelAttribute("category") Category category) {
+        category.setId(0);
+        if (repository.findAll().contains(category)) {
+            //return new ResponseEntity<>(String.format("%s already exists", category), HttpStatus.CONFLICT);
+            /*
+             * TODO return if found existing category
+             */
+            return "";
+        }
+        repository.save(category);
+
+        return "redirect:/categories";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable int id) {
         try {
             Category category = repository.findById(id).orElseThrow();
             repository.deleteById(id);
-            return new ResponseEntity<>(category, HttpStatus.OK);
+            return "redirect:/categories";
         } catch (NoSuchElementException e) {
-            return new ResponseEntity<>(String.format("Category with Id=%d not found", id),HttpStatus.NOT_FOUND);
+            //return new ResponseEntity<>(String.format("Category with Id=%d not found", id),HttpStatus.NOT_FOUND);
+            /*
+             * TODO return if couldn't find category with this id
+             */
+            return "";
         }
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<Category> put(@RequestBody Category data, @PathVariable int id) {
-        data.setId(id);
-        repository.save(data);
-        return new ResponseEntity<>(data, HttpStatus.OK);
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable int id, Model model) {
+        try {
+            Category category = repository.findById(id).orElseThrow();
+            model.addAttribute("category", category);
+            return "categories/edit";
+        } catch (NoSuchElementException e) {
+            /*
+             * TODO return if couldn't find category with this id
+             */
+            return "";
+        }
+    }
+
+    /*
+     * TODO get update working
+     */
+    @PostMapping("/{id}/edit")
+    public String put(@ModelAttribute("category") Category category, @PathVariable int id) {
+        category.setId(id);
+        repository.save(category);
+        return "redirect:/details";
     }
 }

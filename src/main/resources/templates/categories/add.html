@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <title>Store Everything</title>
+    <link th:href="@{/css/categories/categories.css}" rel="stylesheet" />
+</head>
+
+<body>
+    <h1>Add category:</h1>
+    <form th:action="@{/categories/add}" th:method="post" th:object="${category}">
+      <input type="text" th:field="*{name}">
+      <button type="submit">Add</button>
+    </form>
+    
+    <button>
+        <a th:href="@{/categories}">Back</a>
+    </button>
+</body>
+
+</html>
