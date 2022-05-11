@@ -19,19 +19,25 @@
 
                 <div class="row align-items-center">
                     <div class="col text-center">
-                        <button class="col btn btn-secondary" style="width: 101%;">
-                            <a th:href="@{/categories}">Back</a>
-                        </button>
+                        <a th:href="@{/categories}">
+                            <button class="col btn btn-secondary" style="width: 101%;">
+                                Back
+                            </button>
+                        </a>
                     </div>
                     <div class="col text-center">
-                        <button class="col btn btn-danger" style="width: 101%;">
-                            <a th:href="@{/categories/{id}/delete (id=${category.id})}">Delete</a>
-                        </button>
+                        <a th:href="@{/categories/{id}/delete (id=${category.id})}">
+                            <button class="col btn btn-danger" style="width: 101%;">
+                                Delete
+                            </button>
+                        </a>
                     </div>
                     <div class="col text-center">
-                        <button class="col btn btn-warning" style="width: 101%;">
-                            <a th:href="@{/categories/{id}/edit (id=${category.id})}">Edit</a>
-                        </button>
+                        <a th:href="@{/categories/{id}/edit (id=${category.id})}">
+                            <button class="col btn btn-warning" style="width: 101%;">
+                                Edit
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

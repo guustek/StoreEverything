@@ -20,13 +20,17 @@
         <div class="row justify-content-center">
             <div class="col-3 text-center">
                 <form th:action="@{/categories/add}" th:method="post" th:object="${category}">
-                    <input class="form-control text-center" type="text" th:field="*{name}">
+                    <input class="form-control text-center" type="text" th:field="*{name}">    
                     <br>
-                    <button class="btn btn-secondary" style="margin-right: 12px;">
-                        <a th:href="@{/categories}">Back</a>
-                    </button>
+                    <a th:href="@{/categories}">
+                        <button class="btn btn-secondary" type="button" style="margin-right: 12px;">
+                            Back
+                        </button>
+                    </a>                
                     <button class="btn btn-success" type="submit" style="margin-left: 12px;">Add</button>
                 </form>
+
+                
             </div>
         </div>
 

@@ -22,9 +22,11 @@
                 <form th:action="@{/categories/{id}/edit (id=${category.id})}" th:object="${category}" th:method="post">
                     <input class="form-control text-center" type="text" th:field="*{name}">
                     <br>
-                    <button class="btn btn-secondary" style="margin-right: 12px;">
-                        <a th:href="@{/categories/{id} (id=${category.id})}">Back</a>
-                    </button>
+                    <a th:href="@{/categories/{id} (id=${category.id})}">
+                        <button class="btn btn-secondary" type="button" style="margin-right: 12px;">
+                            Back
+                        </button>
+                    </a>
                     <button class="btn btn-success" type="submit" style="margin-left: 12px;">Save</button>
                 </form>
             </div>
