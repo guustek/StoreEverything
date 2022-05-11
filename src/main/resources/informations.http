@@ -1,0 +1,43 @@
+GET http://localhost:8080/informations
+Accept: application/json
+###
+
+GET http://localhost:8080/informations/5
+Accept: application/json
+###
+
+POST http://localhost:8080/informations
+Content-Type: application/json
+
+{
+  "id": "1",
+  "title": "X",
+  "content": "X",
+  "category":  {
+    "id": 3,
+    "name": "JD"
+  },
+  "link": null,
+  "addedDate": "2022-04-28",
+  "remindDate": "2022-04-30"
+}
+###
+
+DELETE http://localhost:8080/informations/1
+Accept: application/json
+###
+
+PUT http://localhost:8080/informations/2
+Content-Type: application/json
+
+{
+  "title": "Pieczywo",
+  "content": "Bułki - 2x, Chleb - 1x",
+  "category": {
+    "id": 1,
+    "name": "Zakupy"
+  },
+  "link": null,
+  "addedDate": "2022-04-28",
+  "remindDate": "2022-04-30"
+}
