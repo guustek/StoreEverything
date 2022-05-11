@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,6 +27,7 @@ public class CategoryController {
     @GetMapping("")
     public String getAll(Model model) {
         List<Category> categories = repository.findAll();
+        categories.sort(Comparator.comparing(Category :: getId));
         model.addAttribute("categories", categories);
         return "categories/categories";
     }
@@ -100,8 +103,7 @@ public class CategoryController {
      */
     @PostMapping("/{id}/edit")
     public String put(@ModelAttribute("category") Category category, @PathVariable int id) {
-        category.setId(id);
         repository.save(category);
-        return "redirect:/details";
+        return "redirect:/categories/" + id;
     }
 }

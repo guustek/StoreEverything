@@ -3,28 +3,40 @@
 
 <head>
     <title>Store Everything</title>
-    <link th:href="@{/css/categories/categories.css}" rel="stylesheet" />
+    <link th:rel="stylesheet" th:href="@{~/webjars/bootstrap/5.1.3/css/bootstrap.css}" />
+    <script th:src="@{~/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>
+    <link th:href="@{/css/categories/categories.css}" th:rel="stylesheet" />
 </head>
 
 <body>
-    <h1 th:text="'Name: ' + ${category.name}"></h1>
-    <h1 th:text="'ID: ' + ${category.id}"></h1>
+    <nav th:replace="fragments/navbar.html"></nav>
 
-    <button>
-        <a th:href="@{/categories/{id}/edit (id=${category.id})}">Edit</a>
-    </button>
+    <div class="d-flex justify-content-center" style="padding-top: 12px;">
+        <div class="card" style="width: 30%;">
+            <div class="card-body">
+                <h5 class="card-title text-center" th:text="${category.name}"></h5>
+                <p class="card-text" th:text="'ID: ' + ${category.id}"></p>
 
-    <br>
-
-    <button>
-        <a th:href="@{/categories/{id}/delete (id=${category.id})}">Delete</a>
-    </button>
-
-    <br>
-
-    <button>
-        <a th:href="@{/categories}">Back</a>
-    </button>
+                <div class="row align-items-center">
+                    <div class="col text-center">
+                        <button class="col btn btn-secondary" style="width: 101%;">
+                            <a th:href="@{/categories}">Back</a>
+                        </button>
+                    </div>
+                    <div class="col text-center">
+                        <button class="col btn btn-danger" style="width: 101%;">
+                            <a th:href="@{/categories/{id}/delete (id=${category.id})}">Delete</a>
+                        </button>
+                    </div>
+                    <div class="col text-center">
+                        <button class="col btn btn-warning" style="width: 101%;">
+                            <a th:href="@{/categories/{id}/edit (id=${category.id})}">Edit</a>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
