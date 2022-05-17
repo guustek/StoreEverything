@@ -17,6 +17,7 @@
                 <h5 class="card-title text-center" th:text="${information.title}"></h5>
                 <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
                 <p class="card-text" th:text="${information.content}"></p>
+                <p class="card-text" th:text="${information.remindDate}"></p>
                 <a class="card-text link" th:text="${information.link}" th:href="'http://' + ${information.link}"></a>
 
                 <div class="row align-items-center" style="margin-top: 12px;">

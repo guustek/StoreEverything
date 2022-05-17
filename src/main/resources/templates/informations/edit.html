@@ -20,22 +20,38 @@
         <div class="row justify-content-center">
             <div class="col-4 text-center">
                 <form th:action="@{/informations/{id}/edit (id=${information.id})}" th:method="post" th:object="${information}">
-                    <input class="form-control text-center" type="text" th:field="*{title}"> 
-                    <input class="form-control text-center" type="text" th:field="*{content}"> 
-                    <select class="form-select" th:field="*{category}">
-                        <option th:each="category : ${categories}"
-                                th:value="${category.id}"
-                                th:text="${category.name}"/>
-                    </select>
-                    <input class="form-control text-center" type="text" th:field="*{link}"> 
-                    <input class="form-control text-center" type="date" th:field="*{remindDate}"> 
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title:</label>
+                        <input class="form-control text-center" id="title" type="text" th:field="*{title}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Content:</label>
+                        <textarea class="form-control" id="content" type="text" th:field="*{content}"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category:</label>
+                        <select class="form-select" id="category" th:field="*{category}">
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}" />
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link:</label>
+                        <input class="form-control text-center" id="link" placeholder="(optional)" type="text"
+                            th:field="*{link}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="remindDate" class="form-label">Remind date:</label>
+                        <input class="form-control text-center" id="remindDate" type="date" th:field="*{remindDate}">
+                    </div>
+
                     <input class="form-control text-center" type="date" th:field="*{addedDate}" style="display: none;"> 
-                    <br>
+
                     <a th:href="@{/informations}">
                         <button class="btn btn-secondary" type="button" style="margin-right: 12px;">
                             Back
                         </button>
-                    </a>                
+                    </a>
                     <button class="btn btn-success" type="submit" style="margin-left: 12px;">Save</button>
                 </form>
 
