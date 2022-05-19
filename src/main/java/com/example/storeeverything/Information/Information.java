@@ -31,7 +31,7 @@ public class Information {
     @Column(name = "added_date", nullable = false)
     private Date addedDate;
     @Basic
-    @Column(name = "remind_date", nullable = false)
+    @Column(name = "remind_date", nullable = true)
     private Date remindDate;
 
     public int getId() {
