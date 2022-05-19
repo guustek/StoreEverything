@@ -2,11 +2,13 @@ package com.example.storeeverything.Category;
 
 
 import com.example.storeeverything.Information.Information;
+import com.example.storeeverything.validation.LowerCaseValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -19,10 +21,12 @@ public class Category {
     private int id;
     @Basic
     @Column(name = "name", nullable = false)
+    @Size(min = 3, max = 20, message = "Size must be between 3 and 20")
+    @LowerCaseValidation
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Information> informations;
 
