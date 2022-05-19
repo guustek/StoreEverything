@@ -8,16 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Date;
+import java.sql.Date;
 
 @CrossOrigin
 @Controller
@@ -67,7 +69,12 @@ public class InformationController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("information") Information information) {
+    public String add(@Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()){
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
+            return "informations/add";
+        }
         information.setId(0);
         Date sqlDate = new Date(System.currentTimeMillis());
         information.setAddedDate(sqlDate);
@@ -115,7 +122,12 @@ public class InformationController {
     }
 
     @PostMapping("/{id}/edit")
-    public String put(@ModelAttribute("information") Information information, @PathVariable int id) {
+    public String put(@Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model, @PathVariable int id) {
+        if(bindingResult.hasErrors()){
+            List<Category> categories = categoryRepository.findAll();
+            model.addAttribute("categories", categories);
+            return "informations/edit";
+        }
         informationRepository.save(information);
         return "redirect:/informations/" + id;
     }
