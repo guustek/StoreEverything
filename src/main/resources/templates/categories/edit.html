@@ -22,6 +22,7 @@
             <div class="col-3 text-center">
                 <form th:action="@{/categories/{id}/edit (id=${category.id})}" th:object="${category}" th:method="post">
                     <input class="form-control text-center" type="text" th:field="*{name}">
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger" role="alert"></div>
                     <br>
                     <a th:href="@{/categories/{id} (id=${category.id})}">
                         <button class="btn btn-secondary" type="button" style="margin-right: 12px;">

@@ -7,13 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.Date;
+
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Date;
 
 @CrossOrigin
 @Controller
@@ -65,7 +68,7 @@ public class InformationController {
     @PostMapping("/add")
     public String add(@ModelAttribute("information") Information information) {
         information.setId(0);
-        java.sql.Date sqlDate = new java.sql.Date(System.currentTimeMillis());
+        Date sqlDate = new Date(System.currentTimeMillis());
         information.setAddedDate(sqlDate);
         if (informationRepository.findAll().contains(information)) {
             //return new ResponseEntity<>(String.format("%s already exists", information), HttpStatus.CONFLICT);

@@ -1,9 +1,12 @@
 package com.example.storeeverything.Information;
 
 import com.example.storeeverything.Category.Category;
+import com.example.storeeverything.validation.LowerCaseValidation;
 
 import javax.persistence.*;
-import java.sql.Date;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -15,13 +18,15 @@ public class Information {
     private int id;
     @Basic
     @Column(name = "title", nullable = false)
+    @Size(min = 3, max = 20, message = "Size must be between 3 and 20")
     private String title;
     @Basic
     @Column(name = "content", nullable = false)
+    @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "category_id",foreignKey = @ForeignKey(name = "information_category_pk"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_pk"))
     private Category category;
 
     @Basic
@@ -31,7 +36,7 @@ public class Information {
     @Column(name = "added_date", nullable = false)
     private Date addedDate;
     @Basic
-    @Column(name = "remind_date", nullable = false)
+    @Column(name = "remind_date")
     private Date remindDate;
 
     public int getId() {
