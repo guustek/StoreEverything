@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -55,7 +57,10 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("category") Category category) {
+    public String add(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "categories/add";
+        }
         category.setId(0);
         if (repository.findAll().contains(category)) {
             //return new ResponseEntity<>(String.format("%s already exists", category), HttpStatus.CONFLICT);
@@ -102,7 +107,10 @@ public class CategoryController {
      * TODO get update working
      */
     @PostMapping("/{id}/edit")
-    public String put(@ModelAttribute("category") Category category, @PathVariable int id) {
+    public String put(@Valid @ModelAttribute("category") Category category,BindingResult bindingResult, @PathVariable int id ) {
+        if(bindingResult.hasErrors()){
+            return "categories/edit";
+        }
         repository.save(category);
         return "redirect:/categories/" + id;
     }

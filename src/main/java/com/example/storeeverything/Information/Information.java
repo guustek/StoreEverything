@@ -21,7 +21,7 @@ public class Information {
     private String content;
 
     @ManyToOne
-    @JoinColumn(name = "category_id",foreignKey = @ForeignKey(name = "information_category_pk"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_pk"))
     private Category category;
 
     @Basic

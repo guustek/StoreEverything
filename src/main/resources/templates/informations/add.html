@@ -23,10 +23,12 @@
                     <div class="mb-3">
                         <label for="title" class="form-label">Title:</label>
                         <input class="form-control text-center" id="title" type="text" th:field="*{title}">
+                        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="alert alert-danger" role="alert"></div>
                     </div>
                     <div class="mb-3">
                         <label for="content" class="form-label">Content:</label>
                         <textarea class="form-control" id="content" type="text" th:field="*{content}"></textarea>
+                        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="alert alert-danger" role="alert"></div>
                     </div>
                     <div class="mb-3">
                         <label for="category" class="form-label">Category:</label>
