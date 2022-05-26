@@ -2,7 +2,7 @@ package com.example.storeeverything.Category;
 
 
 import com.example.storeeverything.Information.Information;
-import com.example.storeeverything.validation.LowerCaseValidation;
+import com.example.storeeverything.Validation.LowerCaseValidation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

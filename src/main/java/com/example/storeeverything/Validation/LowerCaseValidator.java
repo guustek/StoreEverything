@@ -1,8 +1,7 @@
-package com.example.storeeverything.validation;
+package com.example.storeeverything.Validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.Locale;
 
 public class LowerCaseValidator implements ConstraintValidator<LowerCaseValidation, String> {
     @Override

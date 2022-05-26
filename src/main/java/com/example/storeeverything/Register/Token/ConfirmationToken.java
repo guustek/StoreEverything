@@ -28,12 +28,8 @@ public class ConfirmationToken {
     private LocalDateTime expiresAt;
 
     private LocalDateTime confirmedAt;
-
     @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "app_user_id"
-    )
+    @JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "token_user_fk"))
     private User user;
 
     public ConfirmationToken(String token,

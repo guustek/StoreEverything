@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserService implements UserDetailsService {
 
-    private final UserRepository UserRepository;
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final static String NOT_FOUND_MESSAGE = "user with email %s not found";
@@ -24,12 +24,12 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        return UserRepository.findByEmail(email)
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(NOT_FOUND_MESSAGE,email)));
     }
 
     public String signUpUser(User user){
-        boolean userExists = UserRepository
+        boolean userExists = userRepository
                 .findByEmail(user.getEmail())
                 .isPresent();
         if(userExists){
@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 
         user.setPassword(encodedPassword);
 
-        UserRepository.save(user);
+        userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token,
@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public int enableAppUser(String email) {
-        return UserRepository.enableAppUser(email);
+    public void enableUser(String email) {
+        userRepository.enableUser(email);
     }
 }

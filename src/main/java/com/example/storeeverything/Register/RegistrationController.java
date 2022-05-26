@@ -1,28 +1,42 @@
 package com.example.storeeverything.Register;
 
-import lombok.AllArgsConstructor;
+import com.example.storeeverything.User.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping(path = "api/v1/registration")
-@AllArgsConstructor
-@CrossOrigin
+import javax.servlet.http.HttpServletRequest;
+
+@Controller
+@RequestMapping("/register")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @PostMapping
-    public String register(@RequestBody RegistrationRequest request){
-        return registrationService.register(request);
+    @Autowired
+    public RegistrationController(RegistrationService registrationService) {
+        this.registrationService = registrationService;
     }
 
-    @GetMapping(path = "confirm")
+    @GetMapping("")
+    public String register(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "register";
+    }
+
+    @PostMapping("")
+    public String register(@ModelAttribute("user") User user) {
+        //        return registrationService.register(user);
+        confirm(registrationService.register(user));
+
+        return "redirect:/informations";
+    }
+
+
+    @GetMapping("/confirm")
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
-    }
-
-    @GetMapping()
-    public String XD(String x){
-        return  "XD";
     }
 }

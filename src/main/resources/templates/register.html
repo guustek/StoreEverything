@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Store Everything</title>
+    <link th:rel="stylesheet" th:href="@{~/webjars/bootstrap/5.1.3/css/bootstrap.css}" />
+    <script th:src="@{~/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>
+    <link th:href="@{/css/categories/categories.css}" rel="stylesheet" />
+</head>
+
+<body>
+<nav th:replace="fragments/navbar.html"></nav>
+
+<div class="container" style="padding-top: 12px;">
+    <div class="row justify-content-center">
+        <div class="col-3 text-center">
+            <h1>Sign up</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-3 text-center">
+            <form th:action="@{/register}" th:method="post" th:object="${user}">
+                <input class="form-control text-center" type="email" placeholder="Email" th:field="*{email}">
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert"></div>
+                <input class="form-control text-center" type="password" placeholder="Password" th:field="*{password}">
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger" role="alert"></div>
+                <br>
+                <a th:href="@{/login}">
+                    <button class="btn btn-secondary" type="button" style="margin-right: 12px;">
+                        Back
+                    </button>
+                </a>
+                <button class="btn btn-success" type="submit" style="margin-left: 12px;">Sign up</button>
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+</body>
+
+</html>

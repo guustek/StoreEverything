@@ -4,38 +4,42 @@ import com.example.storeeverything.Email.EmailSender;
 import com.example.storeeverything.Register.Token.ConfirmationToken;
 import com.example.storeeverything.Register.Token.ConfirmationTokenService;
 import com.example.storeeverything.User.User;
-import com.example.storeeverything.User.UserRole;
 import com.example.storeeverything.User.UserService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
 public class RegistrationService {
 
     private final EmailValidator emailValidator;
-    private final UserService UserService;
+    private final UserService userService;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
-        if(!isValidEmail){
-            throw new IllegalStateException("email not valid");
+    @Autowired
+    public RegistrationService(EmailValidator emailValidator, UserService userService, ConfirmationTokenService confirmationTokenService, EmailSender emailSender) {
+        this.emailValidator = emailValidator;
+        this.userService = userService;
+        this.confirmationTokenService = confirmationTokenService;
+        this.emailSender = emailSender;
+    }
+
+
+    public String register(User user) {
+        boolean isValidEmail = emailValidator.test(user.getEmail());
+        if (! isValidEmail) {
+            throw new IllegalStateException("Email is not valid");
         }
 
-        String token = UserService.signUpUser(new User(
-                request.getEmail(),
-                request.getPassword(),
-                UserRole.USER)
-        );
+        String token = userService.signUpUser(user);
 
-        String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(), buildEmail(request.getEmail(),link));
-
+//        String link = "http://localhost:8080/registration/confirm?token=" + token;
+//        emailSender.send(user.getEmail(), buildEmail(user.getEmail(), link));
         return token;
     }
 
@@ -57,8 +61,7 @@ public class RegistrationService {
         }
 
         confirmationTokenService.setConfirmedAt(token);
-        UserService.enableAppUser(
-                confirmationToken.getUser().getEmail());
+        userService.enableUser(confirmationToken.getUser().getEmail());
         return "confirmed";
     }
 

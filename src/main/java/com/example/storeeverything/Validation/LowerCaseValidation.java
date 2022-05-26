@@ -1,4 +1,4 @@
-package com.example.storeeverything.validation;
+package com.example.storeeverything.Validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

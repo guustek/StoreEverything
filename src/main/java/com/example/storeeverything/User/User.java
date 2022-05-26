@@ -1,7 +1,7 @@
 package com.example.storeeverything.User;
 
 import com.example.storeeverything.Information.Information;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.storeeverything.Register.Token.ConfirmationToken;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraintvalidation.SupportedValidationTarget;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -34,9 +33,9 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
     @Basic
-    @Column(name = "role", nullable = false, columnDefinition = "varchar(255) default 'user'")
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(255) default 'USER'")
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private UserRole role = UserRole.USER;
     @Basic
     @Column(name = "locked", columnDefinition = "boolean default false")
     private Boolean locked = false;
@@ -47,6 +46,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Information> informations;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Collection<ConfirmationToken> confirmationTokens;
 
     public User(String email, String password, UserRole appUserRole) {
         this.email = email;
@@ -79,7 +82,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return ! locked;
     }
 
     @Override
