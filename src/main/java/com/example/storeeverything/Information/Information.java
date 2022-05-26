@@ -1,12 +1,17 @@
 package com.example.storeeverything.Information;
 
+import com.example.storeeverything.User.User;
 import com.example.storeeverything.Category.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
-
+@Getter
+@Setter
 @Entity
 @Table(name = "information")
 public class Information {
@@ -22,10 +27,14 @@ public class Information {
     @Column(name = "content", nullable = false)
     @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
     private String content;
-
     @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_pk"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_fk"))
     private Category category;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "information_user_fk"))
+    private User user;
 
     @Basic
     @Column(name = "link", nullable = true)
@@ -36,62 +45,6 @@ public class Information {
     @Basic
     @Column(name = "remind_date", nullable = true)
     private Date remindDate;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Date getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public Date getRemindDate() {
-        return remindDate;
-    }
-
-    public void setRemindDate(Date remindDate) {
-        this.remindDate = remindDate;
-    }
 
     @Override
     public boolean equals(Object o) {

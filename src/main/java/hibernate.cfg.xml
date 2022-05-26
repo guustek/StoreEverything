@@ -14,6 +14,7 @@
 
         <mapping class="com.example.storeeverything.Category.Category" />
         <mapping class="com.example.storeeverything.Information.Information" />
+        <mapping class="com.example.storeeverything.User.User"/>
 
     </session-factory>
 </hibernate-configuration>
