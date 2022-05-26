@@ -1,5 +1,5 @@
-INSERT INTO app_user (email,password)
-VALUES ('JD','2137');
+-- INSERT INTO app_user (email,password)
+-- VALUES ('JD','2137');
 
 INSERT INTO category (name)
 VALUES('Zakupy');

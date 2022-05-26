@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraintvalidation.SupportedValidationTarget;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -37,11 +38,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     @Basic
-    @Column(name = "locked", nullable = false, columnDefinition = "boolean default false")
-    private Boolean locked;
+    @Column(name = "locked", columnDefinition = "boolean default false")
+    private Boolean locked = false;
     @Basic
-    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default false")
-    private Boolean enabled;
+    @Column(name = "enabled", columnDefinition = "boolean default false")
+    private Boolean enabled = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -53,10 +54,6 @@ public class User implements UserDetails {
         this.role = appUserRole;
     }
 
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     //security things
     @Override
@@ -82,7 +79,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return ! locked;
+        return !locked;
     }
 
     @Override
@@ -94,6 +91,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
     @Override
     public boolean equals(Object o) {
