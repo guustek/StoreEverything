@@ -12,9 +12,6 @@ public class LowerCaseValidator implements ConstraintValidator<LowerCaseValidati
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if(value.equals(value.toLowerCase())){
-            return true;
-        }
-        return false;
+        return value.equals(value.toLowerCase());
     }
 }

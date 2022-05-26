@@ -15,9 +15,9 @@ import static java.lang.annotation.ElementType.METHOD;
 @Documented
 @Constraint(validatedBy = LowerCaseValidator.class)
 public @interface LowerCaseValidation {
-    public String message() default "{lowerCase}";
+    String message() default "{lowerCase}";
 
-    public Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
