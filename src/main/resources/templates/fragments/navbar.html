@@ -26,10 +26,10 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <div class="btn-group">
+                <div class="btn-group" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                        <div sec:authorize="isAuthenticated()">
+                        <div>
                             <span sec:authentication="name"></span>
                         </div>
                     </button>
@@ -44,6 +44,11 @@
                             <a th:href="@{/logout}" class="dropdown-item" type="button">Logout</a>
                         </li>
                     </ul>
+                </div>
+                <div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                    <a th:href="@{/login}" type="button">
+                        <button type="button" class="btn btn-secondary">Login</button>
+                    </a>
                 </div>
             </form>
         </div>
