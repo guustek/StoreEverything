@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
 
 <head>
     <title>Store Everything</title>
@@ -19,19 +19,18 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/categories}">Categories</a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/categories}">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/informations}">Informations</a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/informations}">Informations</a>
                 </li>
             </ul>
             <form class="d-flex">
-                <div class="btn-group" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                <div class="btn-group"
+                     th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                        <div>
-                            <span sec:authentication="name"></span>
-                        </div>
+                        <span sec:authentication="name"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>

@@ -12,11 +12,11 @@
             18b40ba084c458d02d455e27ea27269bd57391f371ea172b16e497320c5549e4
         </property>
 
-        <mapping class="com.example.storeeverything.User.User"/>
-        <mapping class="com.example.storeeverything.Register.Token.ConfirmationToken"/>
+        <mapping class="com.example.storeeverything.user.User"/>
+        <mapping class="com.example.storeeverything.register.Token.ConfirmationToken"/>
 
-        <mapping class="com.example.storeeverything.Category.Category" />
-        <mapping class="com.example.storeeverything.Information.Information" />
+        <mapping class="com.example.storeeverything.category.Category" />
+        <mapping class="com.example.storeeverything.information.Information" />
 
 
     </session-factory>
