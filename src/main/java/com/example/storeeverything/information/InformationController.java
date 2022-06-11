@@ -58,18 +58,18 @@ public class InformationController {
     }
 
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@AuthenticationPrincipal User user, Model model) {
         Information information = new Information();
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findByUserId(user.getId());
         model.addAttribute("information", information);
         model.addAttribute("categories", categories);
         return "informations/add";
     }
 
     @PostMapping("/add")
-    public String add(@Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
+    public String add(@AuthenticationPrincipal User user, @Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<Category> categories = categoryRepository.findAll();
+            List<Category> categories = categoryRepository.findByUserId(user.getId());
             model.addAttribute("categories", categories);
             return "informations/add";
         }
