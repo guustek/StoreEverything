@@ -7,4 +7,6 @@ import java.util.List;
 public interface InformationRepository extends JpaRepository<Information,Integer> {
 
     List<Information> findByUserId(int id);
+
+    List<Information> findBySharedTrue();
 }

@@ -51,6 +51,10 @@ public class Information {
     @Column(name = "remind_date", nullable = true)
     private Date remindDate;
 
+    @Basic
+    @Column(name = "shared", nullable = false)
+    private boolean shared = false;
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

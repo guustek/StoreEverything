@@ -97,6 +97,14 @@ public class InformationController {
         return "redirect:/informations";
     }
 
+    @GetMapping("/{id}/share")
+    public String share(@PathVariable int id) {
+        Information information = informationRepository.findById(id).orElseThrow();
+        information.setShared(true);
+        informationRepository.save(information);
+        return "redirect:/informations/" + id;
+    }
+
     private void correctInformationValues(User user, Information information) {
         information.setUser(user);
         if (information.getLink().isEmpty())
