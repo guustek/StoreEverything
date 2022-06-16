@@ -37,6 +37,10 @@ public class Information {
     private User user;
 
     @Basic
+    @Column(name = "shared", nullable = false)
+    private boolean shared = false;
+
+    @Basic
     @Column(name = "link", nullable = true)
     private String link;
     @Basic

@@ -2,8 +2,10 @@ package com.example.storeeverything.Information;
 
 import com.example.storeeverything.Category.Category;
 import com.example.storeeverything.Category.CategoryRepository;
+import com.example.storeeverything.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +35,8 @@ public class InformationController {
 
     @GetMapping("")
     public String getAll(Model model) {
-        List<Information> informations = informationRepository.findAll();
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Information> informations = informationRepository.findByUser((User)user);
         informations.sort(Comparator.comparing(Information :: getId));
         model.addAttribute("informations", informations);
         return "informations/informations";
@@ -70,7 +73,9 @@ public class InformationController {
             model.addAttribute("categories", categories);
             return "informations/add";
         }
+        Object user = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         information.setId(0);
+        information.setUser((User)user);
         Date sqlDate = new Date(System.currentTimeMillis());
         information.setAddedDate(sqlDate);
         if (informationRepository.findAll().contains(information)) {
@@ -123,6 +128,14 @@ public class InformationController {
             model.addAttribute("categories", categories);
             return "informations/edit";
         }
+        informationRepository.save(information);
+        return "redirect:/informations/" + id;
+    }
+
+    @GetMapping("/{id}/share")
+    public String share(@PathVariable int id) {
+        Information information = informationRepository.findById(id).orElseThrow();
+        information.setShared(true);
         informationRepository.save(information);
         return "redirect:/informations/" + id;
     }

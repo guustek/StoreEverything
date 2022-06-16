@@ -28,6 +28,13 @@
                             </button>
                         </a>
                     </div>
+                    <div class="col text-center" th:if="${information.shared == false}">
+                        <a th:method="post" th:href="@{/informations/{id}/share (id=${information.id})}">
+                            <button class="col btn btn-primary" style="width: 101%;">
+                                Share
+                            </button>
+                        </a>
+                    </div>
                     <div class="col text-center">
                         <a th:href="@{/informations/{id}/delete (id=${information.id})}">
                             <button class="col btn btn-danger" style="width: 101%;">
