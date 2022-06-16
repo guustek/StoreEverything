@@ -1,7 +1,7 @@
 package com.example.storeeverything.user;
 
-import com.example.storeeverything.register.Token.ConfirmationToken;
-import com.example.storeeverything.register.Token.ConfirmationTokenService;
+import com.example.storeeverything.register.token.ConfirmationToken;
+import com.example.storeeverything.register.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

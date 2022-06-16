@@ -1,4 +1,4 @@
-package com.example.storeeverything.register.Token;
+package com.example.storeeverything.register.token;
 
 import com.example.storeeverything.user.User;
 import lombok.Getter;

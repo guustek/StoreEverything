@@ -1,4 +1,4 @@
-package com.example.storeeverything.register.Token;
+package com.example.storeeverything.register.token;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

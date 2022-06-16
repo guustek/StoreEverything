@@ -8,7 +8,10 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query(
-            value = "select * from category where id = (select category_id from information where user_id = ?1)",
+            value = "select * from category where id in (select category_id from information where user_id = ?1)",
             nativeQuery = true)
     List<Category> findByUserId(int userId);
+
+    Category findByName(String name);
+
 }

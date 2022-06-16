@@ -13,7 +13,7 @@
         </property>
 
         <mapping class="com.example.storeeverything.user.User"/>
-        <mapping class="com.example.storeeverything.register.Token.ConfirmationToken"/>
+        <mapping class="com.example.storeeverything.register.token.ConfirmationToken"/>
 
         <mapping class="com.example.storeeverything.category.Category" />
         <mapping class="com.example.storeeverything.information.Information" />

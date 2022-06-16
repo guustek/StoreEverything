@@ -5,11 +5,14 @@ import com.example.storeeverything.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
+
 @Getter
 @Setter
 @Entity
@@ -27,8 +30,9 @@ public class Information {
     @Column(name = "content", nullable = false)
     @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
     private String content;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_fk"))
+    @Valid
     private Category category;
 
     @JsonIgnore
@@ -40,6 +44,7 @@ public class Information {
     @Column(name = "link", nullable = true)
     private String link;
     @Basic
+    @CreationTimestamp
     @Column(name = "added_date", nullable = false)
     private Date addedDate;
     @Basic

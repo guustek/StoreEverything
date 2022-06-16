@@ -12,13 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/informations")
@@ -44,17 +42,9 @@ public class InformationController {
 
     @GetMapping("/{id}")
     public String getById(@PathVariable int id, Model model) {
-        try {
-            Information information = informationRepository.findById(id).orElseThrow();
-            model.addAttribute("information", information);
-            return "informations/details";
-        } catch (NoSuchElementException e) {
-            //return new ResponseEntity<>(String.format("Information with Id=%d not found", id), HttpStatus.NOT_FOUND);
-            /*
-             * TODO return if couldn't find information with this id
-             */
-            return "";
-        }
+        Information information = informationRepository.findById(id).orElseThrow();
+        model.addAttribute("information", information);
+        return "informations/details";
     }
 
     @GetMapping("/add")
@@ -74,15 +64,7 @@ public class InformationController {
             return "informations/add";
         }
         information.setId(0);
-        Date sqlDate = new Date(System.currentTimeMillis());
-        information.setAddedDate(sqlDate);
-        if (informationRepository.findAll().contains(information)) {
-            //return new ResponseEntity<>(String.format("%s already exists", information), HttpStatus.CONFLICT);
-            /*
-             * TODO return if found existing information
-             */
-            return "";
-        }
+        correctInformationValues(user, information);
         informationRepository.save(information);
 
         return "redirect:/informations";
@@ -90,44 +72,38 @@ public class InformationController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable int id) {
-        try {
-            Information information = informationRepository.findById(id).orElseThrow();
-            informationRepository.deleteById(id);
-            return "redirect:/informations";
-        } catch (NoSuchElementException e) {
-            //return new ResponseEntity<>(String.format("Information with Id=%d not found", id), HttpStatus.NOT_FOUND);
-            /*
-             * TODO return if couldn't find information with this id
-             */
-            return "";
-        }
+        informationRepository.deleteById(id);
+        return "redirect:/informations";
     }
 
     @GetMapping("/{id}/edit")
-    public String edit(@PathVariable int id, Model model) {
-        try {
-            Information information = informationRepository.findById(id).orElseThrow();
-            List<Category> categories = categoryRepository.findAll();
-            model.addAttribute("information", information);
-            model.addAttribute("categories", categories);
-            return "informations/edit";
-        } catch (NoSuchElementException e) {
-            /*
-             * TODO return if couldn't find category with this id
-             */
-            return "";
-        }
+    public String put(@PathVariable int id, Model model) {
+        Information information = informationRepository.findById(id).orElseThrow();
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("information", information);
+        model.addAttribute("categories", categories);
+        return "informations/edit";
     }
 
     @PostMapping("/{id}/edit")
-    public String put(@Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model, @PathVariable int id) {
+    public String put(@AuthenticationPrincipal User user, @Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             List<Category> categories = categoryRepository.findAll();
             model.addAttribute("categories", categories);
             return "informations/edit";
         }
+        correctInformationValues(user, information);
         informationRepository.save(information);
-        return "redirect:/informations/" + id;
+        return "redirect:/informations";
+    }
+
+    private void correctInformationValues(User user, Information information) {
+        information.setUser(user);
+        if (information.getLink().isEmpty())
+            information.setLink(null);
+        Category existingCategory = categoryRepository.findByName(information.getCategory().getName());
+        if (existingCategory != null)
+            information.setCategory(existingCategory);
     }
 
     @InitBinder

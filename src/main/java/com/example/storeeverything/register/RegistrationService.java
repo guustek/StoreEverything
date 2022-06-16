@@ -1,8 +1,8 @@
 package com.example.storeeverything.register;
 
 import com.example.storeeverything.email.EmailSender;
-import com.example.storeeverything.register.Token.ConfirmationToken;
-import com.example.storeeverything.register.Token.ConfirmationTokenService;
+import com.example.storeeverything.register.token.ConfirmationToken;
+import com.example.storeeverything.register.token.ConfirmationTokenService;
 import com.example.storeeverything.user.User;
 import com.example.storeeverything.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

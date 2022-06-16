@@ -20,7 +20,7 @@ public class Category {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     @Size(min = 3, max = 20, message = "Size must be between 3 and 20")
     @LowerCaseValidation
     private String name;

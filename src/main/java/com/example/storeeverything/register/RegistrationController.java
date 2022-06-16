@@ -1,10 +1,14 @@
 package com.example.storeeverything.register;
 
+import com.example.storeeverything.category.Category;
 import com.example.storeeverything.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/register")
@@ -25,11 +29,14 @@ public class RegistrationController {
     }
 
     @PostMapping("")
-    public String register(@ModelAttribute("user") User user) {
+    public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         //        return registrationService.register(user);
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
         confirm(registrationService.register(user));
 
-        return "redirect:/informations";
+        return "redirect:/";
     }
 
 
