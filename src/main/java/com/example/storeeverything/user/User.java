@@ -35,9 +35,9 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
     @Basic
-    @Column(name = "role", nullable = false, columnDefinition = "varchar(255) default 'ROLE_ADMIN'")
+    @Column(name = "role", nullable = false, columnDefinition = "varchar(255) default 'ROLE_USER'")
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.ROLE_ADMIN;
+    private UserRole role = UserRole.ROLE_USER;
     @Basic
     @Column(name = "locked", columnDefinition = "boolean default false")
     private Boolean locked = false;
