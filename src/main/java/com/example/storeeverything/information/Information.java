@@ -55,6 +55,10 @@ public class Information {
     @Column(name = "shared", nullable = false, columnDefinition = "boolean default false")
     private boolean shared = false;
 
+    @Basic
+    @Column(name = "shared_link")
+    private String sharedLink;
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

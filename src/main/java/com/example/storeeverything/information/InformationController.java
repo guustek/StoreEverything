@@ -12,11 +12,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.GeneratedValue;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/informations")
@@ -35,7 +39,7 @@ public class InformationController {
     @GetMapping("")
     public String getByUserId(@AuthenticationPrincipal User user, Model model) {
         List<Information> informations = informationRepository.findByUserId(user.getId());
-        informations.sort(Comparator.comparing(Information :: getId));
+        informations.sort(Comparator.comparing(Information::getId));
         model.addAttribute("informations", informations);
         return "informations/informations";
     }
@@ -97,10 +101,21 @@ public class InformationController {
         return "redirect:/informations";
     }
 
-    @GetMapping("/{id}/share")
-    public String share(@PathVariable int id) {
+    @GetMapping("/{id}/share-all")
+    public String shareForAll(@PathVariable int id) {
         Information information = informationRepository.findById(id).orElseThrow();
         information.setShared(true);
+        informationRepository.save(information);
+        return "redirect:/informations/" + id;
+    }
+
+    @GetMapping("/{id}/share-link")
+    public String shareByLink(@PathVariable int id, HttpServletRequest httpServletRequest) {
+        Information information = informationRepository.findById(id).orElseThrow();
+        String url = httpServletRequest.getRequestURL().toString();
+        String uri = httpServletRequest.getRequestURI();
+        String link = url.substring(0, url.length() - uri.length()) + "/link/" + UUID.randomUUID().toString();
+        information.setSharedLink(link);
         informationRepository.save(information);
         return "redirect:/informations/" + id;
     }
