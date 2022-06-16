@@ -1,16 +1,15 @@
 package com.example.storeeverything.admin;
 
-import com.example.storeeverything.category.Category;
-import com.example.storeeverything.information.Information;
 import com.example.storeeverything.user.User;
+import com.example.storeeverything.user.UserListWrapper;
 import com.example.storeeverything.user.UserRepository;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
 import java.util.List;
 
 
@@ -27,22 +26,16 @@ public class AdminController {
 
     @GetMapping("")
     public String getAllUser(Model model) {
-        model.addAttribute("users", userRepository.findAll());
+        System.out.println(userRepository.findAll());
+        List<User> userList = userRepository.findAll();
+        model.addAttribute("userListWrapper", new UserListWrapper(userList));
         return "admin/admin";
     }
 
-    @GetMapping("/{id}/delete")
-    public String delete(@PathVariable int id) {
-        userRepository.deleteById(id);
-        return "redirect:/admin";
-    }
-
     @PostMapping("/save")
-    public String put(@Valid @ModelAttribute("users") List<User> userList, Model model) {
+    public String save(@ModelAttribute("userListWrapper") UserListWrapper userListWrapper) {
+        List<User> userList = userListWrapper.getUsers();
         userRepository.saveAll(userList);
         return "redirect:/admin";
-
     }
-
-
 }

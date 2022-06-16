@@ -52,7 +52,7 @@ public class Information {
     private Date remindDate;
 
     @Basic
-    @Column(name = "shared", nullable = false)
+    @Column(name = "shared", nullable = false, columnDefinition = "boolean default false")
     private boolean shared = false;
 
     @Override
