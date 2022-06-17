@@ -25,7 +25,7 @@
                     <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/informations}">Informations</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/shared}">Shared</a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/shared}">Shared</a>
                 </li>
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <a class="nav-link" th:href="@{/admin}">Admin panel</a>
@@ -53,6 +53,11 @@
                 <div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
                     <a th:href="@{/login}" type="button">
                         <button type="button" class="btn btn-secondary">Login</button>
+                    </a>
+                </div>
+                <div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}" style="padding-left: 20px">
+                    <a th:href="@{/register}" type="button">
+                        <button type="button" class="btn btn-secondary">Register</button>
                     </a>
                 </div>
             </form>
