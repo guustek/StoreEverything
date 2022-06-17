@@ -19,13 +19,15 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/categories}">Categories</a>
+                    <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_FULL_USER'')')}"
+                       class="nav-link" th:href="@{/categories}">Categories</a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/informations}">Informations</a>
+                    <a th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_FULL_USER'')')}"
+                       class="nav-link" th:href="@{/informations}">Informations</a>
                 </li>
                 <li class="nav-item">
-                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/shared}">Shared</a>
+                    <a sec:authorize="isAuthenticated()" class="nav-link" th:href="@{/informations/shared-for-all}">Shared</a>
                 </li>
                 <li class="nav-item" th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
                     <a class="nav-link" th:href="@{/admin}">Admin panel</a>
@@ -33,7 +35,7 @@
             </ul>
             <form class="d-flex">
                 <div class="btn-group"
-                     th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                     sec:authorize="isAuthenticated()">
                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false">
                         <span sec:authentication="name"></span>
@@ -50,12 +52,12 @@
                         </li>
                     </ul>
                 </div>
-                <div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}">
+                <div sec:authorize="!isAuthenticated()">
                     <a th:href="@{/login}" type="button">
                         <button type="button" class="btn btn-secondary">Login</button>
                     </a>
                 </div>
-                <div th:unless="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} or ${#authorization.expression('hasRole(''ROLE_USER'')')}" style="padding-left: 20px">
+                <div sec:authorize="!isAuthenticated()" style="padding-left: 20px">
                     <a th:href="@{/register}" type="button">
                         <button type="button" class="btn btn-secondary">Register</button>
                     </a>

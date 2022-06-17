@@ -1,6 +1,5 @@
 package com.example.storeeverything;
 
-import com.example.storeeverything.security.PasswordEncoder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

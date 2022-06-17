@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
@@ -25,10 +27,12 @@ public class Information {
     @Basic
     @Column(name = "title", nullable = false)
     @Size(min = 3, max = 20, message = "Size must be between 3 and 20")
+    @NotBlank(message = "Must not be empty")
     private String title;
     @Basic
     @Column(name = "content", nullable = false)
     @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
+    @NotBlank(message = "Must not be empty")
     private String content;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_fk"))
@@ -52,12 +56,12 @@ public class Information {
     private Date remindDate;
 
     @Basic
-    @Column(name = "shared", nullable = false, columnDefinition = "boolean default false")
-    private boolean shared = false;
+    @Column(name = "shared_for_all", nullable = false, columnDefinition = "boolean default false")
+    private boolean sharedForAll = false;
 
     @Basic
-    @Column(name = "shared_link")
-    private String sharedLink;
+    @Column(name = "share_link")
+    private String shareLink;
 
     @Override
     public boolean equals(Object o) {
