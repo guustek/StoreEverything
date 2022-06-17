@@ -30,34 +30,6 @@
                         </button>
                     </a>
                 </div>
-                <div class="col text-center" th:if="${information.sharedForAll == false}">
-                    <a th:method="post" th:href="@{/informations/{id}/share-for-all (id=${information.id})}">
-                        <button class="col btn btn-primary" style="width: 101%;">
-                            Share
-                        </button>
-                    </a>
-                </div>
-                <div class="col text-center" th:if="${information.shareLink == null}">
-                    <a th:method="post" th:href="@{/informations/{id}/share-by-link (id=${information.id})}">
-                        <button class="col btn btn-primary" style="width: 101%;">
-                            ShareLink
-                        </button>
-                    </a>
-                </div>
-                <div class="col text-center">
-                    <a th:href="@{/informations/{id}/delete (id=${information.id})}">
-                        <button class="col btn btn-danger" style="width: 101%;">
-                            Delete
-                        </button>
-                    </a>
-                </div>
-                <div class="col text-center">
-                    <a th:href="@{/informations/{id}/edit (id=${information.id})}">
-                        <button class="col btn btn-warning" style="width: 101%;">
-                            Edit
-                        </button>
-                    </a>
-                </div>
             </div>
         </div>
     </div>

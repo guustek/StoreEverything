@@ -1,12 +1,22 @@
-package com.example.storeeverything.Information;
+package com.example.storeeverything.information;
 
-import com.example.storeeverything.Category.Category;
+import com.example.storeeverything.category.Category;
+import com.example.storeeverything.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "information")
 public class Information {
@@ -17,81 +27,41 @@ public class Information {
     @Basic
     @Column(name = "title", nullable = false)
     @Size(min = 3, max = 20, message = "Size must be between 3 and 20")
+    @NotBlank(message = "Must not be empty")
     private String title;
     @Basic
     @Column(name = "content", nullable = false)
     @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
+    @NotBlank(message = "Must not be empty")
     private String content;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_pk"))
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_fk"))
+    @Valid
     private Category category;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "information_user_fk"))
+    private User user;
 
     @Basic
     @Column(name = "link", nullable = true)
     private String link;
     @Basic
+    @CreationTimestamp
     @Column(name = "added_date", nullable = false)
     private Date addedDate;
     @Basic
     @Column(name = "remind_date", nullable = true)
     private Date remindDate;
 
-    public int getId() {
-        return id;
-    }
+    @Basic
+    @Column(name = "shared_for_all", nullable = false, columnDefinition = "boolean default false")
+    private boolean sharedForAll = false;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public Date getAddedDate() {
-        return addedDate;
-    }
-
-    public void setAddedDate(Date addedDate) {
-        this.addedDate = addedDate;
-    }
-
-    public Date getRemindDate() {
-        return remindDate;
-    }
-
-    public void setRemindDate(Date remindDate) {
-        this.remindDate = remindDate;
-    }
+    @Basic
+    @Column(name = "share_link")
+    private String shareLink;
 
     @Override
     public boolean equals(Object o) {

@@ -1,20 +1,19 @@
-package com.example.storeeverything.Category;
+package com.example.storeeverything.category;
 
+import com.example.storeeverything.information.Information;
+import com.example.storeeverything.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-@CrossOrigin
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
@@ -27,8 +26,8 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public String getAll(Model model) {
-        List<Category> categories = repository.findAll();
+    public String getByUserId(@AuthenticationPrincipal User user, Model model) {
+        List<Category> categories = repository.findByUserId(user.getId());
         categories.sort(Comparator.comparing(Category :: getId));
         model.addAttribute("categories", categories);
         return "categories/categories";
@@ -36,17 +35,9 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public String getById(@PathVariable int id, Model model) {
-        try {
-            Category category = repository.findById(id).orElseThrow();
-            model.addAttribute("category", category);
-            return "categories/details";
-        } catch (NoSuchElementException e) {
-            //return new ResponseEntity<>(String.format("Category with Id=%d not found", id), HttpStatus.NOT_FOUND);
-            /*
-             * TODO return if couldn't find category with this id
-             */
-            return "";
-        }
+        Category category = repository.findById(id).orElseThrow();
+        model.addAttribute("category", category);
+        return "categories/details";
     }
 
     @GetMapping("/add")
@@ -58,7 +49,7 @@ public class CategoryController {
 
     @PostMapping("/add")
     public String add(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "categories/add";
         }
         category.setId(0);
@@ -107,8 +98,8 @@ public class CategoryController {
      * TODO get update working
      */
     @PostMapping("/{id}/edit")
-    public String put(@Valid @ModelAttribute("category") Category category,BindingResult bindingResult, @PathVariable int id ) {
-        if(bindingResult.hasErrors()){
+    public String put(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, @PathVariable int id) {
+        if (bindingResult.hasErrors()) {
             return "categories/edit";
         }
         repository.save(category);

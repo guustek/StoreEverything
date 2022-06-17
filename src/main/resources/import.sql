@@ -1,9 +1,21 @@
 INSERT INTO category (name)
-VALUES('Zakupy');
+VALUES ('zakupy');
 INSERT INTO category (name)
-VALUES('Link');
+VALUES ('link');
 
-INSERT INTO information (title, content, category_id, added_date, remind_date)
-VALUES ('Pieczywo', 'Bułki - 2x, Chleb - 1x', 1, '2022-04-28', '2022-04-30');
-INSERT INTO information (title, content, link, category_id, added_date, remind_date)
-VALUES ('Google', 'Link do google', 'www.google.com', 2, '2022-04-28', '2022-04-30');
+INSERT INTO app_user(email, enabled, locked, password, role, name, surname, age)
+VALUES ('admin', true, false, '$2a$10$JEDkM6l7j5K5rT6deXIEO.vgC15..4ISSmzNWzjdWANmNpn32rsre', 'ROLE_ADMIN', 'admin',
+        'admin', 18);
+
+INSERT INTO app_user(email, enabled, locked, password, role, name, surname, age)
+VALUES ('limited', true, false, '$2a$10$gU6wAbbOx3iqEU0pqIGk0OiQboUtlYSa.TFJoVVxtzRIPDwz/535u', 'ROLE_LIMITED_USER',
+        'admin', 'admin', 18);
+
+INSERT INTO app_user(email, enabled, locked, password, role, name, surname, age)
+VALUES ('full', true, false, '$2a$10$noeuc0BAYiJ4G.YTgQT6E.gDcZrcXdwO81jluPo/pKZ3KBdPCG7fC', 'ROLE_FULL_USER', 'admin',
+        'admin', 18);
+
+INSERT INTO information (title, content, category_id, added_date, remind_date, user_id)
+VALUES ('Pieczywo', 'Bułki - 2x, Chleb - 1x', 1, '2022-04-28', '2022-04-30', 1);
+INSERT INTO information (title, content, link, category_id, added_date, remind_date, user_id)
+VALUES ('Google', 'Link do google', 'www.google.com', 2, '2022-04-28', '2022-04-30', 1);
