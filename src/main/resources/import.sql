@@ -18,4 +18,4 @@ VALUES ('full', true, false, '$2a$10$noeuc0BAYiJ4G.YTgQT6E.gDcZrcXdwO81jluPo/pKZ
 INSERT INTO information (title, content, category_id, added_date, remind_date, user_id)
 VALUES ('Pieczywo', 'Bułki - 2x, Chleb - 1x', 1, '2022-04-28', '2022-04-30', 1);
 INSERT INTO information (title, content, link, category_id, added_date, remind_date, user_id)
-VALUES ('Google', 'Link do google', 'www.google.com', 2, '2022-04-28', '2022-04-30', 1);
+VALUES ('Google', 'Link do google', 'https://www.google.com', 2, '2022-04-28', '2022-04-30', 1);
