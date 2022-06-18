@@ -13,6 +13,15 @@
 
 <h1 style="padding: 24px 0 0 24px;">Informations:</h1>
 
+<!--TODO: filter fragment-->
+<ol>
+    <li th:each="category : ${categories}">
+        <a th:text="${category.name}" th:href="@{/informations(categoryFilter=${category.name})}"/>
+    </li>
+    <a th:text="clear" th:href="@{/informations}"/>
+</ol>
+
+
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
     <div class="col" th:each="information : ${informations}">
         <a th:href="@{/informations/{id}(id=${information.id})}">

@@ -1,7 +1,7 @@
 package com.example.storeeverything.information;
 
 import com.example.storeeverything.category.Category;
-import com.example.storeeverything.category.CategoryRepository;
+import com.example.storeeverything.category.CategoryService;
 import com.example.storeeverything.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,8 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/informations")
@@ -25,13 +26,19 @@ import java.util.UUID;
 public class InformationController {
 
     private final InformationService informationService;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
 
     @GetMapping("")
-    public String getByUser(@AuthenticationPrincipal User user, Model model) {
+    public String getByUser(@AuthenticationPrincipal User user, @RequestParam(value = "categoryFilter", required = false) String categoryFilter, Model model) {
         List<Information> informations = informationService.getUserInformations(user);
+        Set<Category> categories = categoryService.getUserCategories(user);
+        if (categoryFilter != null)
+            informations = informations.stream()
+                    .filter(information -> information.getCategory().getName().equals(categoryFilter))
+                    .toList();
         model.addAttribute("informations", informations);
+        model.addAttribute("categories", categories);
         return "informations/informations";
     }
 
@@ -45,7 +52,7 @@ public class InformationController {
     @GetMapping("/add")
     public String add(@AuthenticationPrincipal User user, Model model) {
         Information information = new Information();
-        List<Category> categories = categoryRepository.findByUserId(user.getId());
+        Set<Category> categories = categoryService.getUserCategories(user);
         model.addAttribute("information", information);
         model.addAttribute("categories", categories);
         return "informations/add";
@@ -54,7 +61,7 @@ public class InformationController {
     @PostMapping("/add")
     public String add(@AuthenticationPrincipal User user, @Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<Category> categories = categoryRepository.findByUserId(user.getId());
+            Set<Category> categories = categoryService.getUserCategories(user);
             model.addAttribute("categories", categories);
             return "informations/add";
         }
@@ -71,9 +78,9 @@ public class InformationController {
     }
 
     @GetMapping("/{id}/edit")
-    public String put(@PathVariable int id, Model model) {
+    public String put(@AuthenticationPrincipal User user, @PathVariable int id, Model model) {
         Information information = informationService.getInformationById(id);
-        List<Category> categories = categoryRepository.findAll();
+        Set<Category> categories = categoryService.getUserCategories(user);
         model.addAttribute("information", information);
         model.addAttribute("categories", categories);
         return "informations/edit";
@@ -82,7 +89,7 @@ public class InformationController {
     @PostMapping("/{id}/edit")
     public String put(@AuthenticationPrincipal User user, @Valid @ModelAttribute("information") Information information, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            List<Category> categories = categoryRepository.findAll();
+            Set<Category> categories = categoryService.getUserCategories(user);
             model.addAttribute("categories", categories);
             return "informations/edit";
         }

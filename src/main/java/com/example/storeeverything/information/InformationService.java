@@ -2,7 +2,9 @@ package com.example.storeeverything.information;
 
 import com.example.storeeverything.category.Category;
 import com.example.storeeverything.category.CategoryRepository;
+import com.example.storeeverything.category.CategoryService;
 import com.example.storeeverything.user.User;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +14,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class InformationService {
 
     private final InformationRepository informationRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
-    @Autowired
-    public InformationService(InformationRepository informationRepository, CategoryRepository categoryRepository) {
-        this.informationRepository = informationRepository;
-        this.categoryRepository = categoryRepository;
-
-    }
 
     public Information getInformationById(int id) {
         return informationRepository.findById(id).orElseThrow();
@@ -37,7 +34,7 @@ public class InformationService {
     public void saveInformation(Information information) {
         if (information.getLink().isEmpty())
             information.setLink(null);
-        Category existingCategory = categoryRepository.findByName(information.getCategory().getName());
+        Category existingCategory = categoryService.getByName(information.getCategory().getName());
         if (existingCategory != null)
             information.setCategory(existingCategory);
         informationRepository.save(information);

@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/categories")
@@ -27,8 +29,7 @@ public class CategoryController {
 
     @GetMapping("")
     public String getByUserId(@AuthenticationPrincipal User user, Model model) {
-        List<Category> categories = repository.findByUserId(user.getId());
-        categories.sort(Comparator.comparing(Category :: getId));
+        Set<Category> categories = repository.findByUserId(user.getId());
         model.addAttribute("categories", categories);
         return "categories/categories";
     }
