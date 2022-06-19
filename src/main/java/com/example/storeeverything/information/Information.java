@@ -11,7 +11,7 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
@@ -44,15 +44,15 @@ public class Information {
     private User user;
 
     @Basic
-    @Column(name = "link", nullable = true)
+    @Column(name = "link")
     private String link;
     @Basic
     @CreationTimestamp
     @Column(name = "added_date", nullable = false)
-    private Date addedDate;
+    private LocalDate addedDate;
     @Basic
-    @Column(name = "remind_date", nullable = true)
-    private Date remindDate;
+    @Column(name = "remind_date")
+    private LocalDate remindDate;
 
     @Basic
     @Column(name = "shared_for_all", nullable = false, columnDefinition = "boolean default false")

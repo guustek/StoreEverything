@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/informations")
@@ -130,6 +129,6 @@ public class InformationController {
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(LocalDate.class, new CustomDateEditor(dateFormat, true));
     }
 }

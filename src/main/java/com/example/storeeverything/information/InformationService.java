@@ -1,16 +1,13 @@
 package com.example.storeeverything.information;
 
 import com.example.storeeverything.category.Category;
-import com.example.storeeverything.category.CategoryRepository;
 import com.example.storeeverything.category.CategoryService;
 import com.example.storeeverything.user.User;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -37,11 +34,9 @@ public class InformationService {
     public List<Information> getInformationsWithReminders(User user) {
         List<Information> informations = informationRepository.findByUserId(user.getId());
         informations.sort(Comparator.comparing(Information :: getId));
-        long now = System.currentTimeMillis();
-        Date sqlDate = new Date(now);
-
-        List<Information> reminders = informations.stream().filter(information -> information.getRemindDate().equals(sqlDate)).toList();
-        return reminders;
+        return informations.stream()
+                .filter(information -> information.getRemindDate().equals(LocalDate.now()))
+                .toList();
     }
 
     public void saveInformation(Information information) {
