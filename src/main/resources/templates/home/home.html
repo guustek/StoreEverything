@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
     <title>Store Everything</title>
@@ -11,10 +12,14 @@
 <body>
 <nav th:replace="fragments/navbar.html"></nav>
 
-<div class="main-box">
+<div class="main-box" sec:authorize="!isAuthenticated()">
     <h1 class="welcome"> Welcome</h1>
     <img th:src="@{/images/homeIMG.png}" alt="" class="homeImg"/>
     <h2 class="welcome2"> StoreEverything</h2>
+</div>
+
+<div sec:authorize="isAuthenticated()">
+
 </div>
 
 

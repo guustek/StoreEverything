@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +31,16 @@ public class InformationService {
         List<Information> informations = informationRepository.findByUserId(user.getId());
         informations.sort(Comparator.comparing(Information :: getId));
         return informations;
+    }
+
+    public List<Information> getInformationsWithReminders(User user) {
+        List<Information> informations = informationRepository.findByUserId(user.getId());
+        informations.sort(Comparator.comparing(Information :: getId));
+        long now = System.currentTimeMillis();
+        Date sqlDate = new Date(now);
+
+        List<Information> reminders = informations.stream().filter(information -> information.getRemindDate().equals(sqlDate)).toList();
+        return reminders;
     }
 
     public void saveInformation(Information information) {
