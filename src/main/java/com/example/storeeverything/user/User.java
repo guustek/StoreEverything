@@ -2,21 +2,22 @@ package com.example.storeeverything.user;
 
 import com.example.storeeverything.information.Information;
 import com.example.storeeverything.register.token.ConfirmationToken;
-import com.example.storeeverything.validation.first_letter_uppercase.FirstLetterUpperCase;
 import com.example.storeeverything.validation.email_not_taken.EmailNotTaken;
+import com.example.storeeverything.validation.first_letter_uppercase.FirstLetterUpperCase;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
