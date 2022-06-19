@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,9 +35,8 @@ public class InformationService {
     public void saveInformation(Information information) {
         if (information.getLink().isEmpty())
             information.setLink(null);
-        Category existingCategory = categoryService.getByName(information.getCategory().getName());
-        if (existingCategory != null)
-            information.setCategory(existingCategory);
+        Optional<Category> existingCategory = categoryService.getByName(information.getCategory().getName());
+        existingCategory.ifPresent(information :: setCategory);
         informationRepository.save(information);
     }
 
