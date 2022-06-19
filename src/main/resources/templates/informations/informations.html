@@ -20,6 +20,21 @@
     </li>
     <a th:text="clear" th:href="@{/informations}"/>
 </ol>
+<ol>
+    <li>
+        <a th:text="Name + ' ' + ascending" th:href="@{/informations(sort=name-ascending)}"/>
+    </li>
+    <li>
+        <a th:text="Name + ' ' + descending" th:href="@{/informations(sort=name-descending)}"/>
+    </li>
+    <li>
+        <a th:text="Date + ' ' + oldest" th:href="@{/informations(sort=date-ascending)}"/>
+    </li>
+    <li>
+        <a th:text="Date + ' ' + newest" th:href="@{/informations(sort=date-descending)}"/>
+    </li>
+    <a th:text="clear" th:href="@{/informations}"/>
+</ol>
 
 
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
