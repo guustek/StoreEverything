@@ -4,7 +4,7 @@ import com.example.storeeverything.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -17,7 +17,7 @@ public class CategoryService {
         return categoryRepository.findByUserId(user.getId());
     }
 
-    public Category getByName(String name) {
-        return categoryRepository.findByName(name).orElseThrow();
+    public Optional<Category> getByName(String name) {
+        return categoryRepository.findByName(name);
     }
 }
