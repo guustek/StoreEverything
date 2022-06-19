@@ -118,7 +118,7 @@ public class InformationController {
 
 
     @GetMapping("/shared/{uuid}")
-    public String getSharedByLink(Model model, HttpServletRequest request, @PathVariable String uuid) {
+    public String getSharedByLink(Model model, HttpServletRequest request) {
         Information information = informationService.getSharedByLink(request);
         model.addAttribute("information", information);
         return "shared/sharedByLink";
