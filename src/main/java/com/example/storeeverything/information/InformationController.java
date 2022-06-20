@@ -125,6 +125,8 @@ public class InformationController {
             model.addAttribute("categories", categories);
             return "informations/edit";
         }
+        Information inf = informationService.getInformationById(information.getId());
+        information.setAddedDate(inf.getAddedDate());
         information.setUser(user);
         informationService.saveInformation(information);
         return "redirect:/informations";
