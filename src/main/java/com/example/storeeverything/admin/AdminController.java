@@ -1,7 +1,7 @@
 package com.example.storeeverything.admin;
 
 import com.example.storeeverything.user.User;
-import com.example.storeeverything.user.UserListWrapper;
+import com.example.storeeverything.user.UserListDTO;
 import com.example.storeeverything.user.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +28,14 @@ public class AdminController {
     public String getAllUser(Model model) {
         System.out.println(userRepository.findAll());
         List<User> userList = userRepository.findAll();
-        model.addAttribute("userListWrapper", new UserListWrapper(userList));
+        model.addAttribute("userList", new UserListDTO(userList));
         return "admin/admin";
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute("userListWrapper") UserListWrapper userListWrapper) {
-        List<User> userList = userListWrapper.getUsers();
-        userRepository.saveAll(userList);
+    public String save(@ModelAttribute("userList") UserListDTO userList) {
+        List<User> users = userList.getUsers();
+        userRepository.saveAll(users);
         return "redirect:/admin";
     }
 }

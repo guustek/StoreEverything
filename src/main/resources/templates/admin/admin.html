@@ -12,11 +12,14 @@
     <nav th:replace="fragments/navbar.html"></nav>
     <h1 style="padding: 24px 0 0 24px;">Admin panel:</h1>
     <div style="padding: 12px 5% 0 5%;">
-        <form th:action="@{/admin/save}" th:object="${userListWrapper}" th:method="post">
+        <form th:action="@{/admin/save}" th:object="${userList}" th:method="post">
             <table class=" col-4 table table-striped table-bordered">
                 <thead>
                 <tr>
                     <th scope="col">Email</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Surname</th>
+                    <th scope="col">Age</th>
                     <th scope="col">Role</th>
                     <th scope="col">Enable</th>
                     <th scope="col">Locked</th>
@@ -26,6 +29,15 @@
                 <tr th:each="user, itemStat : *{users}">
                     <td>
                         <input th:field="*{users[__${itemStat.index}__].email}"/>
+                    </td>
+                    <td>
+                        <input th:field="*{users[__${itemStat.index}__].name}"/>
+                    </td>
+                    <td>
+                        <input th:field="*{users[__${itemStat.index}__].surname}"/>
+                    </td>
+                    <td>
+                        <input th:field="*{users[__${itemStat.index}__].age}"/>
                     </td>
                     <td>
                         <select class="form-select" th:field="*{users[__${itemStat.index}__].role}">

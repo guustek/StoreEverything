@@ -2,10 +2,10 @@ package com.example.storeeverything.user;
 
 import java.util.List;
 
-public class UserListWrapper {
+public class UserListDTO {
     private List<User> users;
 
-    public UserListWrapper(List<User> users) {
+    public UserListDTO(List<User> users) {
         this.users = users;
     }
 
