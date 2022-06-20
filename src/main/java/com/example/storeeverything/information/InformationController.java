@@ -32,36 +32,42 @@ public class InformationController {
 
 
     @GetMapping("")
-    public String getByUser(@AuthenticationPrincipal User user, @RequestParam(value = "categoryFilter", required = false) String categoryFilter, @RequestParam(value = "sort", required = false) String sort, Model model) {
+    public String getByUser(
+            @AuthenticationPrincipal User user,
+            @RequestParam(value = "categoryFilter", required = false) String categoryFilter,
+            @RequestParam(value = "sort", required = false) String sort, Model model) {
         List<Information> informations = informationService.getUserInformations(user);
         Set<Category> categories = categoryService.getUserCategories(user);
         if (categoryFilter != null)
             informations = informations.stream()
                     .filter(information -> information.getCategory().getName().equals(categoryFilter))
                     .toList();
-        if (sort != null ) {
+        if (sort != null) {
             switch (sort) {
-                case "name-ascending" -> informations.sort(Comparator.comparing(Information::getTitle));
-                case "name-descending" -> informations.sort(Comparator.comparing(Information::getTitle).reversed());
-                case "date-ascending" -> informations.sort(Comparator.comparing(Information::getAddedDate));
-                case "date-descending" -> informations.sort(Comparator.comparing(Information::getAddedDate).reversed());
+                case "name-ascending" -> informations.sort(Comparator.comparing(Information :: getTitle));
+                case "name-descending" -> informations.sort(Comparator.comparing(Information :: getTitle).reversed());
+                case "date-ascending" -> informations.sort(Comparator.comparing(Information :: getAddedDate));
+                case "date-descending" ->
+                        informations.sort(Comparator.comparing(Information :: getAddedDate).reversed());
                 case "category-ascending" -> {
-                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category::getName)).toList();
+                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category :: getName)).toList();
                     List<Information> tmpInf = new ArrayList<>();
-                    for (Category category: tmp) {
-                        for (Information information: informations) {
-                            if(!information.getCategory().equals(category)) continue;
+                    for (Category category : tmp) {
+                        for (Information information : informations) {
+                            if (! information.getCategory().equals(category))
+                                continue;
                             tmpInf.add(information);
                         }
                     }
                     informations = tmpInf;
                 }
                 case "category-descending" -> {
-                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category::getName).reversed()).toList();
+                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category :: getName).reversed()).toList();
                     List<Information> tmpInf = new ArrayList<>();
-                    for (Category category: tmp) {
-                        for (Information information: informations) {
-                            if(!information.getCategory().equals(category)) continue;
+                    for (Category category : tmp) {
+                        for (Information information : informations) {
+                            if (! information.getCategory().equals(category))
+                                continue;
                             tmpInf.add(information);
                         }
                     }
@@ -125,8 +131,6 @@ public class InformationController {
             model.addAttribute("categories", categories);
             return "informations/edit";
         }
-        Information inf = informationService.getInformationById(information.getId());
-        information.setAddedDate(inf.getAddedDate());
         information.setUser(user);
         informationService.saveInformation(information);
         return "redirect:/informations";
@@ -157,13 +161,5 @@ public class InformationController {
         Information information = informationService.getSharedByLink(request);
         model.addAttribute("information", information);
         return "shared/sharedByLink";
-    }
-
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(LocalDate.class, new CustomDateEditor(dateFormat, true));
     }
 }

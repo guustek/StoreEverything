@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.Valid;
@@ -49,9 +50,11 @@ public class Information {
     @Basic
     @CreationTimestamp
     @Column(name = "added_date", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate addedDate;
     @Basic
     @Column(name = "remind_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate remindDate;
 
     @Basic
@@ -71,14 +74,12 @@ public class Information {
         Information that = (Information) o;
         return Objects.equals(title, that.title)
                 && Objects.equals(content, that.content)
-                && Objects.equals(addedDate, that.addedDate)
-                && Objects.equals(remindDate, that.remindDate)
                 && Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, content, addedDate, remindDate, category);
+        return Objects.hash(title, content, category);
     }
 
     @Override

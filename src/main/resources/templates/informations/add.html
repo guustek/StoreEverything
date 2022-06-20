@@ -58,10 +58,16 @@
                     <label for="link" class="form-label">Link:</label>
                     <input class="form-control text-center" id="link" placeholder="(optional)" type="text"
                            th:field="*{link}">
+                    <div th:if="${#fields.hasErrors('link')}" th:errors="*{link}"
+                         class="alert alert-danger"
+                         role="alert"></div>
                 </div>
                 <div class="mb-3">
                     <label for="remindDate" class="form-label">Remind date:</label>
-                    <input class="form-control text-center" id="remindDate" type="date" th:field="*{remindDate}">
+                    <input class="form-control text-center" id="remindDate" type="date"  th:field="*{remindDate}">
+                    <div th:if="${#fields.hasErrors('remindDate')}" th:errors="*{remindDate}"
+                         class="alert alert-danger"
+                         role="alert"></div>
 
                 </div>
                 <div class="mb-3">
