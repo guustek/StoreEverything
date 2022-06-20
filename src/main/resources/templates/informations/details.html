@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <title>Store Everything</title>
@@ -17,7 +17,7 @@
             <h5 class="card-title text-center" th:text="${information.title}"></h5>
             <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
             <p class="card-text" th:text="${information.content}"></p>
-            <p class="card-text" th:text="${information.remindDate}"></p>
+            <p class="card-text" th:text="${#temporals.format(information.remindDate,'dd-MM-yyyy')}"></p>
             <a class="card-text link" th:text="${information.link}" th:href="'http://' + ${information.link}"></a>
             <br>
             <a class="card-text link" th:text="${information.shareLink}" th:href="${information.shareLink}"></a>
