@@ -35,8 +35,12 @@ public class InformationService {
         List<Information> informations = informationRepository.findByUserId(user.getId());
         informations.sort(Comparator.comparing(Information :: getId));
         return informations.stream()
-                .filter(information -> information.getRemindDate().equals(LocalDate.now()))
-                .toList();
+                .filter(information -> {
+                    if(information.getRemindDate() != null) {
+                        return information.getRemindDate().equals(LocalDate.now());
+                    }
+                    return false;
+                }).toList();
     }
 
     public void saveInformation(Information information) {

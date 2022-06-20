@@ -4,7 +4,7 @@
 <head>
     <title>Store Everything</title>
     <link th:rel="stylesheet" th:href="@{~/webjars/bootstrap/5.1.3/css/bootstrap.css}"/>
-    <script th:src="@{~/webjars/bootstrap/5.1.3/js/bootstrap.js}"></script>
+    <script th:src="@{~/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/informations/informations.css}"/>
 </head>
 
@@ -13,29 +13,36 @@
 
 <h1 style="padding: 24px 0 0 24px;">Informations:</h1>
 
-<!--TODO: filter fragment-->
-<ol>
-    <li th:each="category : ${categories}">
-        <a th:text="${category.name}" th:href="@{/informations(categoryFilter=${category.name})}"/>
-    </li>
-    <a th:text="clear" th:href="@{/informations}"/>
-</ol>
-<ol>
-    <li>
-        <a th:text="Name + ' ' + ascending" th:href="@{/informations(sort=name-ascending)}"/>
-    </li>
-    <li>
-        <a th:text="Name + ' ' + descending" th:href="@{/informations(sort=name-descending)}"/>
-    </li>
-    <li>
-        <a th:text="Date + ' ' + oldest" th:href="@{/informations(sort=date-ascending)}"/>
-    </li>
-    <li>
-        <a th:text="Date + ' ' + newest" th:href="@{/informations(sort=date-descending)}"/>
-    </li>
-    <a th:text="clear" th:href="@{/informations}"/>
-</ol>
+<div class="row row-cols-1">
+    <div class="container padding">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Category filter
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li th:each="category : ${categories}">
+                    <a th:text="${category.name}" th:href="@{/informations(categoryFilter=${category.name})}"/>
+                </li>
+                <li><a th:text="clear" th:href="@{/informations}"/></li>
+            </ul>
+        </div>
 
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Sort
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a th:text="Name + ' ' + ascending" th:href="@{/informations(sort=name-ascending)}"/></li>
+                <li><a th:text="Name + ' ' + descending" th:href="@{/informations(sort=name-descending)}"/></li>
+                <li><a th:text="Date + ' ' + oldest" th:href="@{/informations(sort=date-ascending)}"/></li>
+                <li><a th:text="Date + ' ' + newest" th:href="@{/informations(sort=date-descending)}"/></li>
+                <li><a th:text="Category + ' ' + ascending" th:href="@{/informations(sort=category-ascending)}"/></li>
+                <li><a th:text="Category + ' ' + descending" th:href="@{/informations(sort=category-descending)}"/></li>
+                <li><a th:text="clear" th:href="@{/informations}"/></li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
     <div class="col" th:each="information : ${informations}">

@@ -12,10 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +45,28 @@ public class InformationController {
                 case "name-descending" -> informations.sort(Comparator.comparing(Information::getTitle).reversed());
                 case "date-ascending" -> informations.sort(Comparator.comparing(Information::getAddedDate));
                 case "date-descending" -> informations.sort(Comparator.comparing(Information::getAddedDate).reversed());
+                case "category-ascending" -> {
+                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category::getName)).toList();
+                    List<Information> tmpInf = new ArrayList<>();
+                    for (Category category: tmp) {
+                        for (Information information: informations) {
+                            if(!information.getCategory().equals(category)) continue;
+                            tmpInf.add(information);
+                        }
+                    }
+                    informations = tmpInf;
+                }
+                case "category-descending" -> {
+                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category::getName).reversed()).toList();
+                    List<Information> tmpInf = new ArrayList<>();
+                    for (Category category: tmp) {
+                        for (Information information: informations) {
+                            if(!information.getCategory().equals(category)) continue;
+                            tmpInf.add(information);
+                        }
+                    }
+                    informations = tmpInf;
+                }
             }
         }
         model.addAttribute("informations", informations);

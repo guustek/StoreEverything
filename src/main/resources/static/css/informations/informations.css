@@ -6,3 +6,14 @@ a {
 .link {
     color:cornflowerblue;
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+    column-gap: 24px;
+}
+
+.padding {
+    margin-top: 12px;
+    margin-left: 24px;
+}
