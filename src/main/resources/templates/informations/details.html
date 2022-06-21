@@ -15,12 +15,21 @@
     <div class="card" style="width: 30%;">
         <div class="card-body">
             <h5 class="card-title text-center" th:text="${information.title}"></h5>
-            <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
-            <p class="card-text" th:text="${information.content}"></p>
-            <p class="card-text" th:text="${#temporals.format(information.remindDate,'dd-MM-yyyy')}"></p>
-            <a class="card-text link" th:text="${information.link}" th:href="'http://' + ${information.link}"></a>
+            <h6 class="card-subtitle mb-3 text-muted text-center" th:text="${information.category.name}"></h6>
+            <p class="card-text" th:text="'Content: '+${information.content}"></p>
+            <p class="card-text"
+               th:text="'Creation date: '+${#temporals.format(information.addedDate,'dd-MM-yyyy')}"></p>
+            <p th:if="${information.remindDate!=null}" class="card-text"
+               th:text="'Remind date: '+${#temporals.format(information.remindDate,'dd-MM-yyyy')}"></p>
+            <p th:if="${information.link!=null}">
+                <text>Link:</text>
+                <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+            </p>
+            <p th:if="${information.isSharedForAll()}" class="card-text" style="font-weight: bold">Shared publicly</p>
+            <p th:if="${information.shareLink!=null}">
+                <text style="font-weight: bold">Shared by link:</text>
+                <a class="card-text link" th:text="${information.shareLink}" th:href="${information.shareLink}"></a></p>
             <br>
-            <a class="card-text link" th:text="${information.shareLink}" th:href="${information.shareLink}"></a>
 
             <div class="row align-items-center" style="margin-top: 12px;">
                 <div class="col text-center">
@@ -33,14 +42,28 @@
                 <div class="col text-center" th:if="${information.sharedForAll == false}">
                     <a th:method="post" th:href="@{/informations/{id}/share-for-all (id=${information.id})}">
                         <button class="col btn btn-primary" style="width: 101%;">
-                            Share
+                            Make public
+                        </button>
+                    </a>
+                </div>
+                <div class="col text-center" th:if="${information.sharedForAll == true}">
+                    <a th:method="post" th:href="@{/informations/{id}/remove-from-public (id=${information.id})}">
+                        <button class="col btn btn-primary" style="width: 101%;">
+                            Remove from public
                         </button>
                     </a>
                 </div>
                 <div class="col text-center" th:if="${information.shareLink == null}">
                     <a th:method="post" th:href="@{/informations/{id}/share-by-link (id=${information.id})}">
                         <button class="col btn btn-primary" style="width: 101%;">
-                            ShareLink
+                            Share by link
+                        </button>
+                    </a>
+                </div>
+                <div class="col text-center" th:if="${information.shareLink != null}">
+                    <a th:method="post" th:href="@{/informations/{id}/stop-sharing-by-link (id=${information.id})}">
+                        <button class="col btn btn-primary" style="width: 101%;">
+                            Stop sharing by link
                         </button>
                     </a>
                 </div>

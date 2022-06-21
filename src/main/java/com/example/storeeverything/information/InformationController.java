@@ -141,6 +141,11 @@ public class InformationController {
         informationService.shareInformationForAll(id);
         return "redirect:/informations/" + id;
     }
+    @GetMapping("/{id}/remove-from-public")
+    public String removeFromPublic(@PathVariable int id) {
+        informationService.removeFromPublic(id);
+        return "redirect:/informations/" + id;
+    }
 
     @GetMapping("/shared-for-all")
     public String getSharedForAll(Model model) {
@@ -152,6 +157,12 @@ public class InformationController {
     @GetMapping("/{id}/share-by-link")
     public String shareByLink(@PathVariable int id, HttpServletRequest request) {
         informationService.shareInformationByLink(id, request);
+        return "redirect:/informations/" + id;
+    }
+
+    @GetMapping("/{id}/stop-sharing-by-link")
+    public String stopSharingByLink(@PathVariable int id) {
+        informationService.stopSharingByLink(id);
         return "redirect:/informations/" + id;
     }
 

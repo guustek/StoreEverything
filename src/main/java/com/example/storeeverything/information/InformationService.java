@@ -2,8 +2,10 @@ package com.example.storeeverything.information;
 
 import com.example.storeeverything.category.Category;
 import com.example.storeeverything.category.CategoryService;
+import com.example.storeeverything.exceptions.SharedByLinkNotFoundException;
 import com.example.storeeverything.user.User;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +38,7 @@ public class InformationService {
         informations.sort(Comparator.comparing(Information :: getId));
         return informations.stream()
                 .filter(information -> {
-                    if(information.getRemindDate() != null) {
+                    if (information.getRemindDate() != null) {
                         return information.getRemindDate().equals(LocalDate.now());
                     }
                     return false;
@@ -65,10 +67,22 @@ public class InformationService {
         informationRepository.save(information);
     }
 
+    public void removeFromPublic(int id) {
+        Information information = getInformationById(id);
+        information.setSharedForAll(false);
+        informationRepository.save(information);
+    }
+
     public void shareInformationByLink(int id, HttpServletRequest request) {
         Information information = getInformationById(id);
         String link = generateSharingLinkFromRequest(request);
         information.setShareLink(link);
+        informationRepository.save(information);
+    }
+
+    public void stopSharingByLink(int id) {
+        Information information = getInformationById(id);
+        information.setShareLink(null);
         informationRepository.save(information);
     }
 
@@ -80,6 +94,8 @@ public class InformationService {
 
     public Information getSharedByLink(HttpServletRequest request) {
         String url = request.getRequestURL().toString();
-        return informationRepository.findByShareLink(url).orElseThrow();
+        return informationRepository.findByShareLink(url).orElseThrow(SharedByLinkNotFoundException :: new);
     }
+
+
 }

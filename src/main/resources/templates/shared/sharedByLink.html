@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <title>Store Everything</title>
@@ -11,21 +11,22 @@
 <body>
 <nav th:replace="fragments/navbar.html"></nav>
 
-<div class="d-flex justify-content-center" style="padding-top: 12px;">
+<div class="d-flex justify-content-center" style="padding-top: 24px;">
     <div class="card" style="width: 30%;">
-        <div class="card-body">
+        <div class="card-body text-center">
             <h5 class="card-title text-center" th:text="${information.title}"></h5>
-            <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
-            <p class="card-text" th:text="${information.content}"></p>
-            <p class="card-text" th:text="${information.remindDate}"></p>
-            <a class="card-text link" th:text="${information.link}" th:href="'http://' + ${information.link}"></a>
+            <h6 class="card-subtitle mb-3 text-muted" th:text="${information.category.name}"></h6>
+            <p class="card-text" th:text="'Content: '+${information.content}"></p>
+            <p th:if="${information.link!=null}">
+                <text>Link:</text>
+                <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+            </p>
             <br>
-            <a class="card-text link" th:text="${information.shareLink}" th:href="${information.shareLink}"></a>
 
             <div class="row align-items-center" style="margin-top: 12px;">
                 <div class="col text-center">
-                    <a th:href="@{/informations}">
-                        <button class="col btn btn-secondary" style="width: 101%;">
+                    <a th:href="@{/}">
+                        <button class="col btn btn-secondary" style="width: 20%;">
                             Back
                         </button>
                     </a>

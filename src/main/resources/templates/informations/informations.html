@@ -16,7 +16,8 @@
 <div class="row row-cols-1">
     <div class="flexior padding">
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 Category filter
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -28,7 +29,8 @@
         </div>
 
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
                 Sort
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -46,17 +48,23 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
     <div class="col" th:each="information : ${informations}">
-        <a th:href="@{/informations/{id}(id=${information.id})}">
-            <div class="card h-100">
+        <div class="card h-100">
+            <a th:href="@{/informations/{id}(id=${information.id})}">
                 <div class="card-body text-center">
-                    <h5 class="card-title" th:text="${information.title}"></h5>
-                    <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
-                    <p class="card-text" th:text="${information.content}"></p>
-                    <p class="card-text" th:text="${information.user.name + ' ' + information.user.surname}"></p>
-                    <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+                    <h5 class="card-title text-center" th:text="${information.title}"></h5>
+                    <h6 class="card-subtitle mb-3 text-muted" th:text="${information.category.name}"></h6>
+                    <p class="card-text" th:text="'Content: '+${information.content}"></p>
+                    <p></p>
+                    <p th:if="${information.link!=null}">
+                        <text>Link:</text>
+                        <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+                    </p>
+                    <p th:if="${information.remindDate!=null}" class="card-text"
+                       th:text="'Remind date: '+${#temporals.format(information.remindDate,'dd-MM-yyyy')}"></p>
+                    <br>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
 </div>
 

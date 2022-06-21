@@ -1,5 +1,6 @@
 package com.example.storeeverything.error;
 
+import com.example.storeeverything.exceptions.SharedByLinkNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,11 +12,12 @@ import java.util.NoSuchElementException;
 
 @ControllerAdvice
 class ErrorControllerAdvice {
-    @ExceptionHandler(NoSuchElementException.class)
+    @ExceptionHandler({NoSuchElementException.class, SharedByLinkNotFoundException.class})
     public ModelAndView handleNoSuchElementException(Exception e) {
         Error error = new Error(HttpStatus.NOT_FOUND, e.getMessage());
         return buildModelAndView(error);
     }
+
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handleExceptions(Exception e) {

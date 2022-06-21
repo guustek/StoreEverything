@@ -11,17 +11,22 @@
 <body>
 <nav th:replace="fragments/navbar.html"></nav>
 
-<h1 style="padding: 24px 0 0 24px;">Shared informations:</h1>
+<h1 style="padding: 24px 0 0 24px;">Public informations:</h1>
 
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
     <div class="col" th:each="information : ${informations}">
         <div class="card h-100">
             <div class="card-body text-center">
-                <h5 class="card-title" th:text="${information.title}"></h5>
-                <h6 class="card-subtitle mb-2 text-muted" th:text="${information.category.name}"></h6>
-                <p class="card-text" th:text="${information.content}"></p>
-                <p class="card-text" th:text="${information.user.name + ' ' + information.user.surname}"></p>
-                <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+                <h5 class="card-title text-center" th:text="${information.title}"></h5>
+                <h6 class="card-subtitle mb-3 text-muted" th:text="${information.category.name}"></h6>
+                <p class="card-text text"
+                   th:text="${'Author: '+information.user.name +' '+ information.user.surname}"></p>
+                <p class="card-text" th:text="'Content: '+${information.content}"></p>
+                <p th:if="${information.link!=null}">
+                    <text>Link:</text>
+                    <a class="card-text link" th:text="${information.link}" th:href="${information.link}"></a>
+                </p>
+                <br>
             </div>
         </div>
     </div>
