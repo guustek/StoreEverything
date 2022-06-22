@@ -10,10 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -97,5 +94,15 @@ public class InformationService {
         return informationRepository.findByShareLink(url).orElseThrow(SharedByLinkNotFoundException :: new);
     }
 
-
+    public List<Information> sortInformationsByCategoryList(List<Information> informations, List<Category> tmp) {
+        List<Information> sortedInformations = new ArrayList<>();
+        for (Category category : tmp) {
+            for (Information information : informations) {
+                if (! information.getCategory().equals(category))
+                    continue;
+                sortedInformations.add(information);
+            }
+        }
+        return sortedInformations;
+    }
 }

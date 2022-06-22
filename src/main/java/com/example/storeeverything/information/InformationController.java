@@ -4,19 +4,14 @@ import com.example.storeeverything.category.Category;
 import com.example.storeeverything.category.CategoryService;
 import com.example.storeeverything.user.User;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -50,33 +45,19 @@ public class InformationController {
                 case "date-descending" ->
                         informations.sort(Comparator.comparing(Information :: getAddedDate).reversed());
                 case "category-ascending" -> {
-                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category :: getName)).toList();
-                    List<Information> tmpInf = new ArrayList<>();
-                    for (Category category : tmp) {
-                        for (Information information : informations) {
-                            if (! information.getCategory().equals(category))
-                                continue;
-                            tmpInf.add(information);
-                        }
-                    }
-                    informations = tmpInf;
+                    List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName)).toList();
+                    informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
                 }
                 case "category-descending" -> {
-                    List<Category> tmp = categories.stream().sorted(Comparator.comparing(Category :: getName).reversed()).toList();
-                    List<Information> tmpInf = new ArrayList<>();
-                    for (Category category : tmp) {
-                        for (Information information : informations) {
-                            if (! information.getCategory().equals(category))
-                                continue;
-                            tmpInf.add(information);
-                        }
-                    }
-                    informations = tmpInf;
+                    List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName).reversed()).toList();
+                    informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
                 }
             }
         }
         model.addAttribute("informations", informations);
         model.addAttribute("categories", categories);
+        model.addAttribute("categoryFilter",categoryFilter);
+        model.addAttribute("sort",sort);
         return "informations/informations";
     }
 
@@ -141,6 +122,7 @@ public class InformationController {
         informationService.shareInformationForAll(id);
         return "redirect:/informations/" + id;
     }
+
     @GetMapping("/{id}/remove-from-public")
     public String removeFromPublic(@PathVariable int id) {
         informationService.removeFromPublic(id);
@@ -173,4 +155,5 @@ public class InformationController {
         model.addAttribute("information", information);
         return "shared/sharedByLink";
     }
+
 }

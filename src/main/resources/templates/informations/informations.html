@@ -21,9 +21,11 @@
                 Category filter
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li th:each="category : ${categories}">
+                <li th:style="${category.name==categoryFilter ? 'font-weight: bold' : ''}"
+                    th:each="category : ${categories}">
                     <a th:text="${category.name}" th:href="@{/informations(categoryFilter=${category.name})}"/>
                 </li>
+                <hr>
                 <li><a th:text="clear" th:href="@{/informations}"/></li>
             </ul>
         </div>
@@ -34,12 +36,24 @@
                 Sort
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a th:text="Name + ' ' + ascending" th:href="@{/informations(sort=name-ascending)}"/></li>
-                <li><a th:text="Name + ' ' + descending" th:href="@{/informations(sort=name-descending)}"/></li>
-                <li><a th:text="Date + ' ' + oldest" th:href="@{/informations(sort=date-ascending)}"/></li>
-                <li><a th:text="Date + ' ' + newest" th:href="@{/informations(sort=date-descending)}"/></li>
-                <li><a th:text="Category + ' ' + ascending" th:href="@{/informations(sort=category-ascending)}"/></li>
-                <li><a th:text="Category + ' ' + descending" th:href="@{/informations(sort=category-descending)}"/></li>
+                <li th:style="${sort=='name-ascending' ? 'font-weight: bold' : ''}"><a th:text="Name + ' ' + ascending"
+                                                                                       th:href="@{/informations(sort=name-ascending)}"/>
+                </li>
+                <li th:style="${sort=='name-descending' ? 'font-weight: bold' : ''}"><a
+                        th:text="Name + ' ' + descending" th:href="@{/informations(sort=name-descending)}"/></li>
+                <li th:style="${sort=='date-ascending' ? 'font-weight: bold' : ''}"><a
+                        th:text="Creation + ' ' + date + ' ' + oldest" th:href="@{/informations(sort=date-ascending)}"/>
+                </li>
+                <li th:style="${sort=='date-descending' ? 'font-weight: bold' : ''}"><a
+                        th:text="Creation + ' ' + date + ' ' + newest"
+                        th:href="@{/informations(sort=date-descending)}"/>
+                </li>
+                <li th:style="${sort=='category-ascending' ? 'font-weight: bold' : ''}"><a
+                        th:text="Category + ' ' + ascending" th:href="@{/informations(sort=category-ascending)}"/></li>
+                <li th:style="${sort=='category-descending' ? 'font-weight: bold' : ''}"><a
+                        th:text="Category + ' ' + descending" th:href="@{/informations(sort=category-descending)}"/>
+                </li>
+                <hr>
                 <li><a th:text="clear" th:href="@{/informations}"/></li>
             </ul>
         </div>
@@ -48,8 +62,9 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4" style="padding: 24px;">
     <div class="col" th:each="information : ${informations}">
-        <div class="card h-100">
-            <a th:href="@{/informations/{id}(id=${information.id})}">
+        <a th:href="@{/informations/{id}(id=${information.id})}">
+            <div class="card h-100">
+
                 <div class="card-body text-center">
                     <h5 class="card-title text-center" th:text="${information.title}"></h5>
                     <h6 class="card-subtitle mb-3 text-muted" th:text="${information.category.name}"></h6>
@@ -63,8 +78,8 @@
                        th:text="'Remind date: '+${#temporals.format(information.remindDate,'dd-MM-yyyy')}"></p>
                     <br>
                 </div>
-            </a>
-        </div>
+            </div>
+        </a>
     </div>
 </div>
 
