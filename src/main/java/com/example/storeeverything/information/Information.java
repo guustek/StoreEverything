@@ -13,7 +13,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -49,7 +48,7 @@ public class Information {
     private String link;
     @Basic
     @CreationTimestamp
-    @Column(name = "added_date", nullable = false)
+    @Column(name = "added_date", nullable = false, columnDefinition = "date default current_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate addedDate;
     @Basic
@@ -71,15 +70,25 @@ public class Information {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
+
         Information that = (Information) o;
-        return Objects.equals(title, that.title)
-                && Objects.equals(content, that.content)
-                && Objects.equals(category, that.category);
+
+        if (! title.equals(that.title))
+            return false;
+        if (! content.equals(that.content))
+            return false;
+        if (! category.equals(that.category))
+            return false;
+        return user.equals(that.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, content, category);
+        int result = title.hashCode();
+        result = 31 * result + content.hashCode();
+        result = 31 * result + category.hashCode();
+        result = 31 * result + user.hashCode();
+        return result;
     }
 
     @Override
@@ -89,9 +98,12 @@ public class Information {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", category=" + category +
+                ", user=" + user +
                 ", link='" + link + '\'' +
                 ", addedDate=" + addedDate +
                 ", remindDate=" + remindDate +
+                ", sharedForAll=" + sharedForAll +
+                ", shareLink='" + shareLink + '\'' +
                 '}';
     }
 }
