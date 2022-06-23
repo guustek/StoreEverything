@@ -33,7 +33,7 @@ public class Information {
     @Size(min = 5, max = 500, message = "Size must be between 5 and 500")
     @NotBlank(message = "Must not be empty")
     private String content;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.MERGE})
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "information_category_fk"))
     @Valid
     private Category category;

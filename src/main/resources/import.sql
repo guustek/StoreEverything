@@ -20,9 +20,3 @@ VALUES ('Pieczywo', 'Bułki - 2x, Chleb - 1x', 1, '2022-04-28', '2022-04-30', 1)
 
 INSERT INTO information (title, content, link, category_id, added_date, remind_date, user_id)
 VALUES ('Google', 'Link do google', 'https://www.google.com', 2, '2022-04-28', '2022-06-19', 1);
-
-INSERT INTO information (title, content, link, category_id, added_date, remind_date, user_id)
-VALUES ('XD', 'Link TEST', 'https://XD.com', 2, '2022-04-28', '2022-06-19', 1);
-
-INSERT INTO information (title, content, category_id, remind_date, user_id)
-VALUES ('Wadowice', 'Kremówki', 2, '2022-06-22', 3);
