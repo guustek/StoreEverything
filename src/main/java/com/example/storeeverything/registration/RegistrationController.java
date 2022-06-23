@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -29,11 +28,12 @@ public class RegistrationController {
     }
 
     @PostMapping("")
-    public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, HttpServletRequest request) {
+    public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        registrationService.register(user,request);
+        confirm(registrationService.register(user));
+
         return "redirect:/";
     }
 

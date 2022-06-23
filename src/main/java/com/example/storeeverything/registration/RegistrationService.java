@@ -8,10 +8,8 @@ import com.example.storeeverything.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 public class RegistrationService {
@@ -28,13 +26,12 @@ public class RegistrationService {
     }
 
 
-    public String register(User user, HttpServletRequest request) {
+    public String register(User user) {
 
         String token = userService.signUpUser(user);
-        String url = request.getRequestURL().toString();
-        String uri = request.getRequestURI();
-        String link = url.substring(0, url.length() - uri.length()) + "/registration/confirm?token=" + token;
-        emailSender.send(user.getEmail(), buildEmail(user.getEmail(), link));
+
+        //        String link = "http://localhost:8080/registration/confirm?token=" + token;
+        //        emailSender.send(user.getEmail(), buildEmail(user.getEmail(), link));
         return token;
     }
 
