@@ -19,14 +19,14 @@ class ErrorControllerAdvice {
     }
 
 
-    @ExceptionHandler(Exception.class)
-    public ModelAndView handleExceptions(Exception e) {
-        String stackTrace = convertStackTraceToString(e);
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        String message = e.getMessage();
-        Error error = new Error(status, message, stackTrace);
-        return buildModelAndView(error);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ModelAndView handleExceptions(Exception e) {
+//        String stackTrace = convertStackTraceToString(e);
+//        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+//        String message = e.getMessage();
+//        Error error = new Error(status, message, stackTrace);
+//        return buildModelAndView(error);
+//    }
 
     private String convertStackTraceToString(Exception e) {
         StringWriter stringWriter = new StringWriter();
@@ -36,7 +36,7 @@ class ErrorControllerAdvice {
     }
 
     private ModelAndView buildModelAndView(Error error) {
-        ModelAndView modelAndView = new ModelAndView("error");
+        ModelAndView modelAndView = new ModelAndView("customError");
         modelAndView.addObject("error", error);
         return modelAndView;
     }

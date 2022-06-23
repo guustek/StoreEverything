@@ -1,7 +1,7 @@
 package com.example.storeeverything.user;
 
-import com.example.storeeverything.register.token.ConfirmationToken;
-import com.example.storeeverything.register.token.ConfirmationTokenService;
+import com.example.storeeverything.registration.token.ConfirmationToken;
+import com.example.storeeverything.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +25,8 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-        return userRepository.findByEmail(email)
+        Optional<User> byEmail = userRepository.findByEmail(email);
+        return byEmail
                 .orElseThrow(() -> new UsernameNotFoundException(String.format(NOT_FOUND_MESSAGE,email)));
     }
 

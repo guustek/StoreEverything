@@ -1,7 +1,7 @@
 package com.example.storeeverything.user;
 
 import com.example.storeeverything.information.Information;
-import com.example.storeeverything.register.token.ConfirmationToken;
+import com.example.storeeverything.registration.token.ConfirmationToken;
 import com.example.storeeverything.validation.email_not_taken.EmailNotTaken;
 import com.example.storeeverything.validation.first_letter_uppercase.FirstLetterUpperCase;
 import lombok.Getter;
