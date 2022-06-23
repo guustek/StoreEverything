@@ -1,4 +1,4 @@
-package com.example.storeeverything.register.token;
+package com.example.storeeverything.registration.token;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

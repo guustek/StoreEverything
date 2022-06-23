@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,9 @@ public class InformationController {
     public String getByUser(
             @AuthenticationPrincipal User user,
             @RequestParam(value = "categoryFilter", required = false) String categoryFilter,
-            @RequestParam(value = "sort", required = false) String sort, Model model) {
+            @RequestParam(value = "sort", required = false) String sort,
+            HttpSession session,
+            Model model) {
         List<Information> informations = informationService.getUserInformations(user);
         Set<Category> categories = categoryService.getUserCategories(user);
         if (categoryFilter != null)
@@ -38,20 +41,14 @@ public class InformationController {
                     .filter(information -> information.getCategory().getName().equals(categoryFilter))
                     .collect(Collectors.toList());
         if (sort != null) {
-            switch (sort) {
-                case "name-ascending" -> informations.sort(Comparator.comparing(Information :: getTitle));
-                case "name-descending" -> informations.sort(Comparator.comparing(Information :: getTitle).reversed());
-                case "date-ascending" -> informations.sort(Comparator.comparing(Information :: getAddedDate));
-                case "date-descending" ->
-                        informations.sort(Comparator.comparing(Information :: getAddedDate).reversed());
-                case "category-ascending" -> {
-                    List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName)).toList();
-                    informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
-                }
-                case "category-descending" -> {
-                    List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName).reversed()).toList();
-                    informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
-                }
+            session.setAttribute("sort criteria",sort);
+            informations = sortInformationsByCriteria(sort, informations, categories);
+        }
+        else{
+            String sortCriteriaFromSession = (String) session.getAttribute("sort criteria");
+            if(sortCriteriaFromSession!=null){
+                sort = sortCriteriaFromSession;
+                informations = sortInformationsByCriteria(sortCriteriaFromSession,informations,categories);
             }
         }
         model.addAttribute("informations", informations);
@@ -59,6 +56,25 @@ public class InformationController {
         model.addAttribute("categoryFilter",categoryFilter);
         model.addAttribute("sort",sort);
         return "informations/informations";
+    }
+
+    private List<Information> sortInformationsByCriteria(String sort, List<Information> informations, Set<Category> categories) {
+        switch (sort) {
+            case "name-ascending" -> informations.sort(Comparator.comparing(Information :: getTitle));
+            case "name-descending" -> informations.sort(Comparator.comparing(Information :: getTitle).reversed());
+            case "date-ascending" -> informations.sort(Comparator.comparing(Information :: getAddedDate));
+            case "date-descending" ->
+                    informations.sort(Comparator.comparing(Information :: getAddedDate).reversed());
+            case "category-ascending" -> {
+                List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName)).toList();
+                informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
+            }
+            case "category-descending" -> {
+                List<Category> sortedCategories = categories.stream().sorted(Comparator.comparing(Category :: getName).reversed()).toList();
+                informations = informationService.sortInformationsByCategoryList(informations, sortedCategories);
+            }
+        }
+        return informations;
     }
 
     @GetMapping("/{id}")
